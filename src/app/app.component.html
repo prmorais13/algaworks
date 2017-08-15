@@ -1,13 +1,10 @@
 <div class="container">
-  <div class="alert alert-success" role="alert">
-   Funcionário adicionado: <strong>{{nome}}</strong>
-  </div>
 
-  <div class="form-group">
-    <label>Nome</label>
-    <input type="text" class="form-control" #nomeInput>
-  </div>
+  <app-funcionario-form (funcionarioAdicionado)="aoAdicionar($event)"></app-funcionario-form>
 
-  <button type="button" class="btn btn-primary"
-    (click)="adicionar(nomeInput.value)">Adicionar</button>
+  <div class="row" style="margin-top: 10px">
+    <div class="col-2" *ngFor="let f of funcionarios">
+      <app-funcionario-card [funcionario]="f"></app-funcionario-card>
+    </div>
+  </div>
 </div>
