@@ -15,4 +15,15 @@ export class FuncionarioCardComponent {
 
   @Input() funcionario: any;
 
+  getEstiloCartao(){
+    return {
+      borderWidth : this.funcionario.id + 'px',
+      backgroundColor : this.funcionario.id % 2 === 0 ? 'lightblue' : 'lightgreen'
+    };
+  }
+
+  isAdmin(){
+    return this.funcionario.nome.startsWith('P');
+  }
+
 }
