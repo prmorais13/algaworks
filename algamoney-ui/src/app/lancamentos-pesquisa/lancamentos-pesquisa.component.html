@@ -25,17 +25,26 @@
     <div class="ui-g">
       <div class="ui-g-12">
         <p-dataTable [value]="lancamentos" [paginator]="true" [rows]="5" [responsive]="true">
+
           <p-column field="pessoa" header="Pessoa"></p-column>
 
           <p-column field="descricao" header="Descrição"></p-column>
 
-          <p-column field="dataVencimento" header="Vencimento" styleClass="col-data"></p-column>
+          <p-column header="Vencimento" styleClass="col-data">
+            <ng-template let-dataVenc="rowData" pTemplate="body">
+              {{ dataVenc.dataVencimento | date: 'dd/MM/yyyy' }}
+            </ng-template>
+          </p-column>
 
-          <p-column field="dataPagamento" header="Pagamento" styleClass="col-data"></p-column>
+          <p-column header="Pagamento" styleClass="col-data">
+            <ng-template let-dataPag="rowData" pTemplate="body">
+              {{ dataPag.dataPagamento  | date: 'dd/MM/yyyy' }}
+            </ng-template>
+          </p-column>
 
           <p-column styleClass="col-valor" header="Valor">
             <ng-template let-lanc="rowData" pTemplate="body">
-              <span [style.color]="lanc.tipo === 'DESPESA' ? 'red' : 'blue'">{{ lanc.valor}}</span>
+              <span [style.color]="lanc.tipo === 'DESPESA' ? 'red' : 'blue'">{{ lanc.valor | number: '1.2-2'}}</span>
             </ng-template>
           </p-column>
 
