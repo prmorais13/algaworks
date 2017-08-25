@@ -1,5 +1,5 @@
 <div class="container">
-  <form autocomplete="off">
+  <form autocomplete="off" #cadastroForm="ngForm">
     <div class="ui-g">
       <div class="ui-g-12">
         <h1>Novo Lançamento</h1>
@@ -15,7 +15,7 @@
           name="vencimento" ngModel #vencimento="ngModel" required></p-calendar>
 
         <app-message [control]="vencimento" error="required"
-          text="Informe uma data de vencimento!"></app-message>
+          text="Informe a data de vencimento!"></app-message>
       </div>
 
       <div class="ui-g-6 ui-md-3 ui-fluid">
@@ -28,7 +28,7 @@
         <input pInputText type="text" name="descricao" ngModel #descricao="ngModel"
           required minlength="10">
 
-          <app-message [control]="descricao" error="required"
+         <app-message [control]="descricao" error="required"
             text="Informe uma descrição!"></app-message>
 
           <app-message [control]="descricao" error="minlength"
@@ -41,7 +41,7 @@
         <label>Valor</label>
         <input pInputText type="text" placeholder="0,00" currencyMask
           [options]="{ prefix: '', thousands: '.', decimal: ',', allowNegative: false}"
-          name="valor" ngModel #valor="ngModel" required >
+          name="valor" ngModel #valor="ngModel" required>
       </div>
 
       <div class="ui-g-12 ui-md-6 ui-fluid">
@@ -62,7 +62,7 @@
       </div>
 
       <div class="ui-g-12">
-        <button pButton type="submit" label="Salvar"></button>
+        <button pButton type="submit" label="Salvar" [disabled]="cadastroForm.invalid"></button>
         <button pButton class="ui-button-info" type="button" label="Novo"></button>
         <a href="#">Voltar para a pesquisa</a>
       </div>
