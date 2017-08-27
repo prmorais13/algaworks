@@ -1,10 +1,11 @@
+import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
-import { FuncionarioModule } from './funcionario/funcionario.module';
-import { LogService } from './log.service';
+
+import { CidadeService } from './cidade.service';
 
 @NgModule({
   declarations: [
@@ -13,11 +14,9 @@ import { LogService } from './log.service';
   imports: [
     BrowserModule,
     FormsModule,
-    FuncionarioModule
+    HttpModule
   ],
-  providers: [
-    LogService
-  ],
+  providers: [CidadeService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
