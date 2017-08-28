@@ -16,24 +16,43 @@ export class AppComponent implements OnInit {
   cidades = [];
 
   ngOnInit() {
+    this.consultar();
+  }
+
+  consultar() {
     this.cidadeService.consultar()
       .then(dados => {
         this.cidades = dados;
-      })
+      });
   }
 
-
-
-
   adicionar(nome: string) {
-    alert(nome);
+    this.cidadeService.adicionar({ nome: nome})
+      .then(cidade =>  {
+        alert(`Cidade "${cidade.nome}" adicionada com código ${cidade.id}`);
+
+        this.consultar();
+      });
   }
 
   excluir(id: number) {
-    alert(id);
+    this.cidadeService.excluir(id)
+    .then(() => {
+      alert(`Cidade com id ${id} excluída com sucesso!`);
+
+      this.consultar();
+    });
   }
 
   atualizar(cidade: any) {
-    alert(JSON.stringify(cidade))
+    this.cidadeService.atualizar(cidade)
+      .then(() => {
+        alert('Dados alterados com sucesso!');
+
+        this.consultar();
+      })
+      .catch(erro => {
+        alert(erro);
+      })
   }
 }
