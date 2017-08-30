@@ -23,6 +23,7 @@ export class LancamentosPesquisaComponent implements OnInit {
   }
 
   pesquisar(pagina = 0) {
+
     this.filtro.pagina = pagina;
 
     this.lancamentoService.pesquisar(this.filtro)

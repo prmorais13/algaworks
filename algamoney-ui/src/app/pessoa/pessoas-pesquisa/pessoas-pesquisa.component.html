@@ -1,24 +1,49 @@
 <div class="container">
+  <form autocomplete="off" (ngSubmit)="pesquisar()">
+
+    <div class="ui-g">
+      <div class="ui-g-12">
+        <h1>Pessoas</h1>
+      </div>
+
+      <div class="ui-g-12 ui-fluid">
+        <label>Nome</label>
+        <input type="text" pInputText name="nome" [(ngModel)]="filtro.nome">
+      </div>
+
+      <div class="ui-g-12">
+        <button pButton type="submit" label="Pesquisar"></button>
+      </div>
+    </div>
+  </form>
+
   <div class="ui-g">
-
     <div class="ui-g-12">
-      <h1>Pessoas</h1>
-    </div>
+      <p-dataTable [value]="pessoas"[responsive]="true" emptyMessage="Nenhuma pessoa encontrada!"
+        [paginator]="true" [rows]="filtro.itensPorPagina" [lazy]="true" [totalRecords]="totalRegistros"
+        (onLazyLoad)="aoMudarPagina($event)">
 
-    <div class="ui-g-12 ui-fluid">
-      <label>Nome</label>
-      <input type="text" pInputText>
-    </div>
+        <p-column field="nome" header="Nome"></p-column>
 
-    <div class="ui-g-12">
-      <button type="submit" pButton label="Pesquisar"></button>
-    </div>
-  </div>
+        <p-column field="endereco.cidade" header="Cidade"></p-column>
 
-  <div class="ui-g">
+        <p-column field="endereco.estado" header="Estado"></p-column>
 
-    <div class="ui-g-12">
-      <app-pessoa-grid [pessoas]="pessoas"></app-pessoa-grid>
+        <p-column header="Status">
+          <ng-template let-p="rowData" pTemplate="body">
+            <a href="#" [pTooltip]="p.ativo ? 'Desativar' : 'Ativar'">
+              {{ p.ativo ? 'Ativo' : 'Inativo'}}
+            </a>
+          </ng-template>
+        </p-column>
+
+        <p-column header="Ações" styleClass="col-acoes">
+          <ng-template pTemplate="body">
+            <a pButton icon="fa-pencil" pTooltip="Editar" tooltipPosition="top"></a>
+            <button pButton icon="fa-trash" pTooltip="Excluir" tooltipPosition="top"></button>
+          </ng-template>
+        </p-column>
+      </p-dataTable>
     </div>
 
     <div class="ui-g-12">

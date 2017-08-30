@@ -1,26 +1,22 @@
-import { Http, Headers, URLSearchParams } from '@angular/http';
+import { Headers, Http, URLSearchParams } from '@angular/http';
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/toPromise';
-import * as moment from 'moment';
 
-export class LancamentoFiltro {
-  descricao: string;
-  dataVencimentoInicio: Date;
-  dataVencimentoFim: Date;
+export class pessoaFiltro {
+  nome: string;
   pagina = 0;
   itensPorPagina = 3;
 }
 
 @Injectable()
-export class LancamentoService {
+export class PessoaService {
 
-  lancamentoUrl: string = 'http://localhost:8080/lancamentos';
+  pessoaUrl: string = 'http://localhost:8080/pessoas';
 
-  constructor(
-    private http: Http
-  ) { }
+  constructor(private http: Http) { }
 
-  pesquisar(filtro: LancamentoFiltro): Promise<any> {
+  pesquisar(filtro: pessoaFiltro): Promise<any> {
+
     const params = new URLSearchParams();
     const headers = new Headers();
 
@@ -29,31 +25,20 @@ export class LancamentoService {
     params.set('page', filtro.pagina.toString());
     params.set('size', filtro.itensPorPagina.toString());
 
-
-    if (filtro.descricao) {
-      params.set('descricao', filtro.descricao);
+    if(filtro.nome) {
+      params.set('nome', filtro.nome);
     }
 
-    if (filtro.dataVencimentoInicio) {
-      params.set('dataVencimentoDe',
-        moment(filtro.dataVencimentoInicio).format('YYYY-MM-DD'));
-    }
-
-    if (filtro.dataVencimentoFim) {
-      params.set('dataVencimentoAte',
-        moment(filtro.dataVencimentoFim).format('YYYY-MM-DD'));
-    }
-
-    return this.http.get(`${this.lancamentoUrl}?resumo`,
-      { headers: headers, search: params })
+    return this.http.get(`${this.pessoaUrl}`, { headers: headers, search: params })
       .toPromise()
       .then(response => {
-        const resultado  = {
-          lancamentos: response.json().content,
+        const resultado = {
+          pessoas: response.json().content,
           total: response.json().totalElements
         };
 
         return resultado;
       });
   }
+
 }
