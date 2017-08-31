@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
-import { LazyLoadEvent } from "primeng/components/common/lazyloadevent";
+import { LazyLoadEvent, ConfirmationService } from "primeng/components/common/api";
+import { ToastyService } from "ng2-toasty";
 
 import { LancamentoService, LancamentoFiltro } from '../lancamento.service';
 @Component({
@@ -13,9 +14,12 @@ export class LancamentosPesquisaComponent implements OnInit {
   totalRegistros = 0;
   filtro: LancamentoFiltro = new LancamentoFiltro();
   lancamentos = [];
+  @ViewChild('tabela') grid;
 
   constructor(
-    private lancamentoService: LancamentoService
+    private lancamentoService: LancamentoService,
+    private toasty: ToastyService,
+    private confirmation: ConfirmationService
   ) {}
 
   ngOnInit(): void {
@@ -36,6 +40,39 @@ export class LancamentosPesquisaComponent implements OnInit {
   aoMudarPagina(event: LazyLoadEvent) {
     const pagina = event.first / event.rows;
     this.pesquisar(pagina);
+  }
+
+  confirmarExclusao(lancamento: any) {
+    this.confirmation.confirm({
+      message: `Excluir lançamento ${lancamento.codigo}?`,
+      accept: () => {
+        this.excluir(lancamento);
+      }
+    });
+  }
+
+  excluir(lancamento: any) {
+
+
+    this.lancamentoService.excluir(lancamento.codigo)
+      .then(() => {
+
+        if(this.grid.first === 0) {
+          this.pesquisar();
+        } else {
+          this.grid.first = 0;
+        }
+
+        this.toasty.success({
+          title: "Exclusão de lançamentos",
+          msg: `Lançamento ${lancamento.codigo} excluído com sucesso!`,
+          timeout: 4000,
+          showClose: false,
+          theme: "bootstrap"
+        });
+
+        //this.toasty.success(`Lançamento "${lancamento.codigo}" excluído com sucesso!`)
+      });
   }
 
 }
