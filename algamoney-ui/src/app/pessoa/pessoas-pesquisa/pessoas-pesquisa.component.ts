@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
-import { LazyLoadEvent } from 'primeng/components/common/lazyloadevent';
+import { LazyLoadEvent, ConfirmationService } from 'primeng/components/common/api';
+import { ToastyService } from 'ng2-toasty';
 
 import { PessoaService, pessoaFiltro } from '../pessoa.service';
+import { ErrorHandlerService } from '../../core/error-handler.service';
 
 @Component({
   selector: 'app-pessoas-pesquisa',
@@ -14,10 +16,14 @@ export class PessoasPesquisaComponent implements OnInit{
   pessoas = [];
   filtro: pessoaFiltro = new pessoaFiltro();
   totalRegistros = 0;
+  @ViewChild('tabelaPessoa') grid;
 
 
   constructor (
-    private pessoaService: PessoaService
+    private pessoaService: PessoaService,
+    private toasty: ToastyService,
+    private confirmation: ConfirmationService,
+    private errorHandler: ErrorHandlerService
   ) {}
 
   ngOnInit(): void {
@@ -40,4 +46,32 @@ export class PessoasPesquisaComponent implements OnInit{
     this.pesquisar(pagina);
   }
 
+  confirmarExclusao(pessoa: any) {
+    this.confirmation.confirm({
+      message: `Excluir <strong>${pessoa.nome}</strong>?`,
+      accept: () => {
+        this.excluir(pessoa);
+      }
+    });
+  }
+
+  excluir (pessoa: any) {
+    this.pessoaService.excluir(pessoa.codigo)
+      .then(() => {
+        if(this.grid.first === 0) {
+          this.pesquisar();
+        } else {
+          this.grid.first = 0;
+        }
+
+        this.toasty.success({
+          title: "Exclusão de pessoas",
+          msg: `${pessoa.nome} excluída com sucesso!`,
+          timeout: 4000,
+          showClose: false,
+          theme: "bootstrap"
+        });
+      })
+      .catch(erro => this.errorHandler.handler(erro));
+  }
 }
