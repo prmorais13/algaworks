@@ -15,7 +15,7 @@ export class LancamentoFiltro {
 export class LancamentoService {
 
   lancamentoUrl: string = 'http://localhost:8080/lancamentos';
-  token: string = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MDQ2MTkzMDcsInVzZXJfbmFtZSI6InBybW9yYWlzXzEzQGhvdG1haWwuY29tIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9DQURBU1RSQVJfQ0FURUdPUklBIiwiUk9MRV9QRVNRVUlTQVJfUEVTU09BIiwiUk9MRV9SRU1PVkVSX1BFU1NPQSIsIlJPTEVfQ0FEQVNUUkFSX0xBTkNBTUVOVE8iLCJST0xFX1BFU1FVSVNBUl9MQU5DQU1FTlRPIiwiUk9MRV9SRU1PVkVSX0xBTkNBTUVOVE8iLCJST0xFX0NBREFTVFJBUl9QRVNTT0EiLCJST0xFX1BFU1FVSVNBUl9DQVRFR09SSUEiLCJST0xFX1JFTU9WRVJfQ0FURUdPUklBIl0sImp0aSI6IjQ1ZTNkOTgzLWJmMzItNDFiYy04YjMyLTFlYzM2ODc2Y2NlYyIsImNsaWVudF9pZCI6ImFuZ3VsYXIiLCJzY29wZSI6WyJyZWFkIiwid3JpdGUiXX0.PpokX6UCZbwE0FDoORsY98tEW4GhqhWftD70SRcdBuA';
+  token: string = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MDQ2NzMzNDgsInVzZXJfbmFtZSI6InBybW9yYWlzXzEzQGhvdG1haWwuY29tIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9DQURBU1RSQVJfQ0FURUdPUklBIiwiUk9MRV9QRVNRVUlTQVJfUEVTU09BIiwiUk9MRV9SRU1PVkVSX1BFU1NPQSIsIlJPTEVfQ0FEQVNUUkFSX0xBTkNBTUVOVE8iLCJST0xFX1BFU1FVSVNBUl9MQU5DQU1FTlRPIiwiUk9MRV9SRU1PVkVSX0xBTkNBTUVOVE8iLCJST0xFX0NBREFTVFJBUl9QRVNTT0EiLCJST0xFX1BFU1FVSVNBUl9DQVRFR09SSUEiLCJST0xFX1JFTU9WRVJfQ0FURUdPUklBIl0sImp0aSI6IjQ0MzI5NzIyLTBhNmEtNDcwZS1iOTdiLTIwODY1YzFjOTA2ZiIsImNsaWVudF9pZCI6ImFuZ3VsYXIiLCJzY29wZSI6WyJyZWFkIiwid3JpdGUiXX0.xCxdW_xmqRNb2Iplft1G7JR-M7QSczP9XiEE-7lTrxY';
 
   constructor(
     private http: Http
@@ -63,7 +63,7 @@ export class LancamentoService {
     const headers = new Headers();
     headers.append('Authorization', this.token);
 
-    return this.http.delete(`${this.lancamentoUrl}/${codigo}gg`, { headers: headers })
+    return this.http.delete(`${this.lancamentoUrl}/${codigo}`, { headers: headers })
       .toPromise()
       .then(() => null);
   }

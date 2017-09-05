@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
+import { ErrorHandlerService } from '../../core/error-handler.service';
+import { CategoriasService } from '../../categorias/categorias.service';
+import { PessoaService } from '../../pessoa/pessoa.service';
+import { Lancamento } from '../../core/modelo';
+
 @Component({
   selector: 'app-lancamento-cadastro',
   templateUrl: './lancamento-cadastro.component.html',
@@ -12,19 +17,38 @@ export class LancamentoCadastroComponent implements OnInit {
     { label: 'Despesa', value: 'DESPESA'}
   ]
 
-  categorias = [
-    { label: 'Alimentação', value: 1},
-    { label: 'Transporte', value: 2}
-  ]
+  categorias = [];
+  pessoas = [];
+  lancamento = new Lancamento();
 
-  pessoas = [
-    { label: 'Paulo Roberto', value: 1},
-    { label: 'Maria Fernanda', value: 2},
-    { label: 'Patricia Nunes', value: 3}
-  ]
-  constructor() { }
+  constructor(
+    private categoriasServive: CategoriasService,
+    private pessoasServive: PessoaService,
+    private errorHandler: ErrorHandlerService
+  ) { }
 
   ngOnInit() {
+    this.carregarCategorias();
+    this.carregarPessoas();
   }
 
+  salvar() {
+    
+  }
+
+  carregarCategorias() {
+    this.categoriasServive.listarTodas()
+      .then(categorias => {
+        this.categorias = categorias.map(c => ({ label: c.nome, value: c.codigo }));
+      })
+      .catch(erro => this.errorHandler.handler(erro));
+  }
+
+  carregarPessoas() {
+    this.pessoasServive.listarPessoas()
+      .then(pessoas => {
+        this.pessoas = pessoas.map(p => ({ label: p.nome, value: p.codigo}));
+      })
+      .catch(error => this.errorHandler.handler(error));
+  }
 }

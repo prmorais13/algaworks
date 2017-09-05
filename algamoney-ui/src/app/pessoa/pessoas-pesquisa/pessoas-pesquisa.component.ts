@@ -27,7 +27,6 @@ export class PessoasPesquisaComponent implements OnInit{
   ) {}
 
   ngOnInit(): void {
-    // this.pesquisar();
   }
 
   pesquisar(pagina = 0) {
@@ -65,8 +64,26 @@ export class PessoasPesquisaComponent implements OnInit{
         }
 
         this.toasty.success({
-          title: "Exclusão de pessoas",
-          msg: `${pessoa.nome} excluída com sucesso!`,
+          title: "Exclusão <br>",
+          msg: `<strong>${pessoa.nome}</strong> excluída com sucesso!`,
+          timeout: 4000,
+          showClose: false,
+          theme: "bootstrap"
+        });
+      })
+      .catch(erro => this.errorHandler.handler(erro));
+  }
+
+  mudarStatus(pessoa: any): void {
+    const novoStatus = !pessoa.ativo;
+    this.pessoaService.mudarStatus(pessoa.codigo, novoStatus)
+      .then(() => {
+        const acao = novoStatus ? 'ativada' : 'desativada';
+        pessoa.ativo = novoStatus;
+
+        this.toasty.success({
+          title: "Status <br>",
+          msg: `Pessoa <strong>${acao}</strong> com sucesso!`,
           timeout: 4000,
           showClose: false,
           theme: "bootstrap"

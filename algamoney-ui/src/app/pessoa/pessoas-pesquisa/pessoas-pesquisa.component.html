@@ -31,7 +31,7 @@
 
         <p-column header="Status">
           <ng-template let-pes="rowData" pTemplate="body">
-            <a href="#" [pTooltip]="pes.ativo ? 'Desativar' : 'Ativar'">
+            <a href="#" [pTooltip]="pes.ativo ? 'Desativar' : 'Ativar'" (click)="mudarStatus(pes)">
               {{ pes.ativo ? 'Ativo' : 'Inativo'}}
             </a>
           </ng-template>
@@ -40,6 +40,7 @@
         <p-column header="Ações" styleClass="col-acoes">
           <ng-template let-pes="rowData" pTemplate="body">
             <a pButton icon="fa-pencil" pTooltip="Editar" tooltipPosition="top"></a>
+            
             <button pButton icon="fa-trash" pTooltip="Excluir" tooltipPosition="top"
               (click)="confirmarExclusao(pes)"></button>
           </ng-template>

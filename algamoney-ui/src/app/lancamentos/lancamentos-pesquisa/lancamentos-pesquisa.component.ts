@@ -46,7 +46,7 @@ export class LancamentosPesquisaComponent implements OnInit {
 
   confirmarExclusao(lancamento: any) {
     this.confirmation.confirm({
-      message: `Excluir lançamento ${lancamento.codigo}?`,
+      message: `Excluir lançamento <strong>${lancamento.codigo}</strong>?`,
       accept: () => {
         this.excluir(lancamento);
       }
@@ -65,8 +65,8 @@ export class LancamentosPesquisaComponent implements OnInit {
         }
 
         this.toasty.success({
-          title: "Exclusão de lançamentos",
-          msg: `Lançamento ${lancamento.codigo} excluído com sucesso!`,
+          title: "Exclusão <br>",
+          msg: `Lançamento <strong>${lancamento.codigo}</strong> excluído com sucesso!`,
           timeout: 4000,
           showClose: false,
           theme: "bootstrap"

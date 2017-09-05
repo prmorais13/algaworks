@@ -35,7 +35,7 @@ export class ErrorHandlerService {
 
     //this.toasty.error(msg);
     this.toasty.error({
-      title: "Erro serviço",
+      title: "Erro <br>",
       msg: `${msg}`,
       timeout: 4000,
       showClose: false,
