@@ -1,5 +1,5 @@
 <div class="container">
-  <form autocomplete="off" #cadastroForm="ngForm">
+  <form #f="ngForm" autocomplete="off" (submit)="salvar(f)">
     <div class="ui-g">
       <div class="ui-g-12">
         <h1>Novo Lançamento</h1>
@@ -7,15 +7,16 @@
 
       <div class="ui-g-12">
         <p-selectButton name="tipo" [options]="tipos"
-          [(ngModel)]="lancamento.tipo"></p-selectButton>
+          [(ngModel)]="lancamento.tipo"
+          #tipo></p-selectButton>
       </div>
 
       <div class="ui-g-6 ui-md-3 ui-fluid">
         <label>Vencimento</label>
         <p-calendar name="vencimento" dateFormat="dd/mm/yy"
           [inline]="false" [readonlyInput]="false" [showIcon]="false"
-          [(ngModel)]="lancamento.dataVencimento" 
-          required></p-calendar>
+          [(ngModel)]="lancamento.dataVencimento"
+          #vencimento="ngModel" required></p-calendar>
 
         <app-message [control]="vencimento" error="required"
           text="Informe a data de vencimento!"></app-message>
@@ -23,15 +24,15 @@
 
       <div class="ui-g-6 ui-md-3 ui-fluid">
         <label>{{ tipo.value === 'RECEITA' ? 'Recebimento' : 'Pagamento' }}</label>
-        <p-calendar  name="recebimento" dateFormat="dd/mm/yy" 
+        <p-calendar  name="recebimento" dateFormat="dd/mm/yy"
           [(ngModel)]="lancamento.dataPagamento"></p-calendar>
       </div>
 
       <div class="ui-g-12 ui-md-9 ui-fluid">
         <label>Descrição</label>
         <input name="descricao" pInputText type="text"
-          [(ngModel)]="descricao" 
-          required minlength="10">
+          [(ngModel)]="lancamento.descricao"
+          #descricao="ngModel" required minlength="10">
 
          <app-message [control]="descricao" error="required"
             text="Informe uma descrição!"></app-message>
@@ -46,7 +47,7 @@
         <label>Valor</label>
         <input pInputText type="text" name="valor" placeholder="0,00" currencyMask
           [options]="{ prefix: '', thousands: '.', decimal: ',', allowNegative: false}"
-          [(ngModel)]="valor"
+          [(ngModel)]="lancamento.valor"
           required>
       </div>
 
@@ -72,9 +73,9 @@
       </div>
 
       <div class="ui-g-12">
-        <button pButton type="submit" label="Salvar" [disabled]="cadastroForm.invalid"></button>
+        <button pButton type="submit" label="Salvar" [disabled]="f.invalid"></button>
         <button pButton class="ui-button-info" type="button" label="Novo"></button>
-        <a href="#">Voltar para a pesquisa</a>
+        <a routerLink="/lancamentos">Voltar para a pesquisa</a>
       </div>
     </div>
   </form>
