@@ -14,6 +14,7 @@ import { PessoaModule } from './pessoa/pessoa.module';
 import { LancamentoModule } from './lancamentos/lancamento.module';
 
 const routes: Routes = [
+  { path: '', component: LancamentosPesquisaComponent },
   { path: 'lancamentos', component: LancamentosPesquisaComponent },
   { path: 'lancamentos/novo', component: LancamentoCadastroComponent },
   { path: 'pessoas', component: PessoasPesquisaComponent },
