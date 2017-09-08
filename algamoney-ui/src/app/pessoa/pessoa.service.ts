@@ -4,7 +4,7 @@ import 'rxjs/add/operator/toPromise';
 
 import { Pessoa } from '../core/modelo';
 
-export class pessoaFiltro {
+export class PessoaFiltro {
   nome: string;
   pagina = 0;
   itensPorPagina = 3;
@@ -12,12 +12,12 @@ export class pessoaFiltro {
 
 @Injectable()
 export class PessoaService {
-  token: string = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MDQ4NjcwNDcsInVzZXJfbmFtZSI6InBybW9yYWlzXzEzQGhvdG1haWwuY29tIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9DQURBU1RSQVJfQ0FURUdPUklBIiwiUk9MRV9QRVNRVUlTQVJfUEVTU09BIiwiUk9MRV9SRU1PVkVSX1BFU1NPQSIsIlJPTEVfQ0FEQVNUUkFSX0xBTkNBTUVOVE8iLCJST0xFX1BFU1FVSVNBUl9MQU5DQU1FTlRPIiwiUk9MRV9SRU1PVkVSX0xBTkNBTUVOVE8iLCJST0xFX0NBREFTVFJBUl9QRVNTT0EiLCJST0xFX1BFU1FVSVNBUl9DQVRFR09SSUEiLCJST0xFX1JFTU9WRVJfQ0FURUdPUklBIl0sImp0aSI6IjUwNjNkOTU2LWJlNGEtNDAwMy1iZTJkLTFkZTNlYzRlMGFmMSIsImNsaWVudF9pZCI6ImFuZ3VsYXIiLCJzY29wZSI6WyJyZWFkIiwid3JpdGUiXX0.eWXxa1CQyx__dsXvxe-MVkrGZUT_4iqolcEsaqUWrl4';
-  pessoaUrl: string = 'http://localhost:8080/pessoas';
+  token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MDQ5Mjg5MTQsInVzZXJfbmFtZSI6InBybW9yYWlzXzEzQGhvdG1haWwuY29tIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9DQURBU1RSQVJfQ0FURUdPUklBIiwiUk9MRV9QRVNRVUlTQVJfUEVTU09BIiwiUk9MRV9SRU1PVkVSX1BFU1NPQSIsIlJPTEVfQ0FEQVNUUkFSX0xBTkNBTUVOVE8iLCJST0xFX1BFU1FVSVNBUl9MQU5DQU1FTlRPIiwiUk9MRV9SRU1PVkVSX0xBTkNBTUVOVE8iLCJST0xFX0NBREFTVFJBUl9QRVNTT0EiLCJST0xFX1BFU1FVSVNBUl9DQVRFR09SSUEiLCJST0xFX1JFTU9WRVJfQ0FURUdPUklBIl0sImp0aSI6ImU5MjFhYjhjLWQ2YmEtNDNhOS1hNDMyLTg4ZWY0MGI3YTkyZSIsImNsaWVudF9pZCI6ImFuZ3VsYXIiLCJzY29wZSI6WyJyZWFkIiwid3JpdGUiXX0.LDNb-jCwhilqgvc_WCY5jMvlHVoaBLS7cDjWJzbeTtw';
+  pessoaUrl = 'http://localhost:8080/pessoas';
 
   constructor(private http: Http) { }
 
-  pesquisar(filtro: pessoaFiltro): Promise<any> {
+  pesquisar(filtro: PessoaFiltro): Promise<any> {
 
     const params = new URLSearchParams();
     const headers = new Headers();

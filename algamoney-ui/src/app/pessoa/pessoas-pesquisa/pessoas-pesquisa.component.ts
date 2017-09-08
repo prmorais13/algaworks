@@ -3,7 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { LazyLoadEvent, ConfirmationService } from 'primeng/components/common/api';
 import { ToastyService } from 'ng2-toasty';
 
-import { PessoaService, pessoaFiltro } from '../pessoa.service';
+import { PessoaService, PessoaFiltro } from '../pessoa.service';
 import { ErrorHandlerService } from '../../core/error-handler.service';
 
 @Component({
@@ -11,10 +11,10 @@ import { ErrorHandlerService } from '../../core/error-handler.service';
   templateUrl: './pessoas-pesquisa.component.html',
   styleUrls: ['./pessoas-pesquisa.component.css']
 })
-export class PessoasPesquisaComponent implements OnInit{
+export class PessoasPesquisaComponent implements OnInit {
 
   pessoas = [];
-  filtro: pessoaFiltro = new pessoaFiltro();
+  filtro: PessoaFiltro = new PessoaFiltro();
   totalRegistros = 0;
   @ViewChild('tabelaPessoa') grid;
 
@@ -64,11 +64,11 @@ export class PessoasPesquisaComponent implements OnInit{
         }
 
         this.toasty.success({
-          title: "Exclusão <br>",
+          title: 'Exclusão <br>',
           msg: `<strong>${pessoa.nome}</strong> excluída com sucesso!`,
           timeout: 4000,
           showClose: false,
-          theme: "bootstrap"
+          theme: 'bootstrap'
         });
       })
       .catch(erro => this.errorHandler.handler(erro));
@@ -82,11 +82,11 @@ export class PessoasPesquisaComponent implements OnInit{
         pessoa.ativo = novoStatus;
 
         this.toasty.success({
-          title: "Status <br>",
+          title: 'Status <br>',
           msg: `Pessoa <strong>${acao}</strong> com sucesso!`,
           timeout: 4000,
           showClose: false,
-          theme: "bootstrap"
+          theme: 'bootstrap'
         });
       })
       .catch(erro => this.errorHandler.handler(erro));

@@ -29,17 +29,17 @@ export class ErrorHandlerService {
       console.error('Ocorreu um erro cara!', errorResponse);
 
     } else {
-      msg = 'Erro ao processar serviço remoto! Tente novamente.'
+      msg = 'Erro ao processar serviço remoto! Tente novamente.';
       console.error('Ocorreu um erro viu!', errorResponse);
     }
 
-    //this.toasty.error(msg);
+    // this.toasty.error(msg);
     this.toasty.error({
-      title: "Erro <br>",
+      title: 'Erro <br>',
       msg: `${msg}`,
       timeout: 4000,
       showClose: false,
-      theme: "bootstrap"
+      theme: 'bootstrap'
     });
   }
 

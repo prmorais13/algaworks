@@ -32,7 +32,7 @@ export class PessoaCadastroComponent implements OnInit {
 
         this.toasty.success({
           title: '<strong>Incluindo...<strong><br>',
-          msg:`<strong>${this.pessoa.nome}</strong> adicionado com sucesso!`,
+          msg: `<strong>${this.pessoa.nome}</strong> adicionado com sucesso!`,
           showClose: false,
           theme: 'bootstrap',
           timeout: 4000

@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
-import { LazyLoadEvent, ConfirmationService } from "primeng/components/common/api";
-import { ToastyService } from "ng2-toasty";
+import { LazyLoadEvent, ConfirmationService } from 'primeng/components/common/api';
+import { ToastyService } from 'ng2-toasty';
 
 import { LancamentoService, LancamentoFiltro } from '../lancamento.service';
-import { ErrorHandlerService } from "../../core/error-handler.service";
+import { ErrorHandlerService } from '../../core/error-handler.service';
 
 @Component({
   selector: 'app-lancamentos-pesquisa',
@@ -54,7 +54,7 @@ export class LancamentosPesquisaComponent implements OnInit {
   }
 
   excluir(lancamento: any) {
-    
+
     this.lancamentoService.excluir(lancamento.codigo)
       .then(() => {
 
@@ -65,14 +65,14 @@ export class LancamentosPesquisaComponent implements OnInit {
         }
 
         this.toasty.success({
-          title: "Exclusão <br>",
+          title: 'Exclusão <br>',
           msg: `Lançamento <strong>${lancamento.codigo}</strong> excluído com sucesso!`,
           timeout: 4000,
           showClose: false,
-          theme: "bootstrap"
+          theme: 'bootstrap'
         });
 
-        //this.toasty.success(`Lançamento "${lancamento.codigo}" excluído com sucesso!`)
+        // this.toasty.success(`Lançamento "${lancamento.codigo}" excluído com sucesso!`)
       })
       .catch(erro => this.errorHandler.handler(erro));
   }

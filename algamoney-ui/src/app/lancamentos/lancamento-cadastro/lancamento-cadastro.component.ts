@@ -19,7 +19,7 @@ export class LancamentoCadastroComponent implements OnInit {
   tipos = [
     { label: 'Receita', value: 'RECEITA'},
     { label: 'Despesa', value: 'DESPESA'}
-  ]
+  ];
 
   categorias = [];
   pessoas = [];
@@ -44,12 +44,12 @@ export class LancamentoCadastroComponent implements OnInit {
         this.lancamento = response;
 
         this.toasty.success({
-          title: "<strong>Incluindo...<strong> <br>",
+          title: '<strong>Incluindo...<strong> <br>',
           msg: `Lançamento <strong>${this.lancamento.descricao}</strong>
             adicionado com sucesso!`,
           timeout: 4000,
           showClose: false,
-          theme: "bootstrap"
+          theme: 'bootstrap'
         });
 
         form.reset();

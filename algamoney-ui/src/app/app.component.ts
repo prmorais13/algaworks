@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output } from '@angular/core';
 
 import { ToastyConfig } from 'ng2-toasty';
 
@@ -11,6 +11,6 @@ export class AppComponent {
 
   constructor (private toastyConfig: ToastyConfig) {
    // this.toastyConfig.theme = 'bootstrap';
-    this.toastyConfig.position = 'top-right'
+    this.toastyConfig.position = 'top-right';
   }
 }

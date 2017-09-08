@@ -35,7 +35,7 @@ import { CategoriasService } from '../categorias/categorias.service';
     CategoriasService,
 
     ConfirmationService,
-    { provide: LOCALE_ID, useValue:'pt-BR' }
+    { provide: LOCALE_ID, useValue: 'pt-BR' }
   ]
 })
 export class CoreModule { }
