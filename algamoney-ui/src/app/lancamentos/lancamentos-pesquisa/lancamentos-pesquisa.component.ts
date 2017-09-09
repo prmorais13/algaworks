@@ -58,7 +58,7 @@ export class LancamentosPesquisaComponent implements OnInit {
     this.lancamentoService.excluir(lancamento.codigo)
       .then(() => {
 
-        if(this.grid.first === 0) {
+        if (this.grid.first === 0) {
           this.pesquisar();
         } else {
           this.grid.first = 0;

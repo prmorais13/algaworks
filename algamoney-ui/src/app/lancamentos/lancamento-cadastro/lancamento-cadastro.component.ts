@@ -1,5 +1,6 @@
 import { FormControl } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { ToastyService } from 'ng2-toasty';
 
@@ -30,15 +31,34 @@ export class LancamentoCadastroComponent implements OnInit {
     private pessoasServive: PessoaService,
     private lancamentoService: LancamentoService,
     private errorHandler: ErrorHandlerService,
-    private toasty: ToastyService
+    private toasty: ToastyService,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
+    const codigoLancamento = this.route.snapshot.params['codigo'];
+
+    if (codigoLancamento) {
+      this.carregarLancamento(codigoLancamento);
+    }
+
     this.carregarCategorias();
     this.carregarPessoas();
   }
 
+  get editando() {
+    return Boolean (this.lancamento.codigo);
+  }
+
   salvar(form: FormControl) {
+    if (this.editando) {
+      this.atualizarLancamento(form);
+    } else {
+      this.adicionarLancamento(form);
+    }
+  }
+
+  adicionarLancamento(form: FormControl) {
     this.lancamentoService.adicionar(this.lancamento)
       .then(response => {
         this.lancamento = response;
@@ -72,5 +92,33 @@ export class LancamentoCadastroComponent implements OnInit {
         this.pessoas = pessoas.map(p => ({ label: p.nome, value: p.codigo}));
       })
       .catch(error => this.errorHandler.handler(error));
+  }
+
+  carregarLancamento(codigo: number) {
+    this.lancamentoService.buscarPorCodigo(codigo)
+      .then(lancamento => {
+        this.lancamento = lancamento;
+      })
+      .catch(erro => this.errorHandler.handler(erro));
+  }
+
+  atualizarLancamento(form: FormControl) {
+    this.lancamentoService.atualizar(this.lancamento)
+    .then(lancamento => {
+      this.lancamento = lancamento;
+
+      this.toasty.success({
+        title: '<strong>Atualizando...<strong> <br>',
+        msg: `Lançamento <strong>${this.lancamento.descricao}</strong>
+          atualizado com sucesso!`,
+        timeout: 4000,
+        showClose: false,
+        theme: 'bootstrap'
+      });
+
+      // form.reset();
+      // this.lancamento = new Lancamento();
+    })
+    .catch(erro => this.errorHandler.handler(erro));
   }
 }
