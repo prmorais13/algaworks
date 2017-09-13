@@ -1,3 +1,4 @@
+import { Title } from '@angular/platform-browser';
 import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { LazyLoadEvent, ConfirmationService } from 'primeng/components/common/api';
@@ -23,10 +24,12 @@ export class PessoasPesquisaComponent implements OnInit {
     private pessoaService: PessoaService,
     private toasty: ToastyService,
     private confirmation: ConfirmationService,
-    private errorHandler: ErrorHandlerService
+    private errorHandler: ErrorHandlerService,
+    private title: Title
   ) {}
 
   ngOnInit(): void {
+    this.title.setTitle('Pesquisa de pessoas');
   }
 
   pesquisar(pagina = 0) {
@@ -64,7 +67,7 @@ export class PessoasPesquisaComponent implements OnInit {
         }
 
         this.toasty.success({
-          title: 'Exclusão <br>',
+          title: 'EXCLUINDO <br>',
           msg: `<strong>${pessoa.nome}</strong> excluída com sucesso!`,
           timeout: 4000,
           showClose: false,

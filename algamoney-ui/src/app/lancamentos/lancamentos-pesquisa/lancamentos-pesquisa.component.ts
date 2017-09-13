@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 
 import { LazyLoadEvent, ConfirmationService } from 'primeng/components/common/api';
 import { ToastyService } from 'ng2-toasty';
@@ -22,10 +23,13 @@ export class LancamentosPesquisaComponent implements OnInit {
     private lancamentoService: LancamentoService,
     private errorHandler: ErrorHandlerService,
     private toasty: ToastyService,
-    private confirmation: ConfirmationService
+    private confirmation: ConfirmationService,
+    private title: Title
   ) {}
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.title.setTitle('Pesquisa de lancamentos');
+  }
 
   pesquisar(pagina = 0) {
 
@@ -46,7 +50,7 @@ export class LancamentosPesquisaComponent implements OnInit {
 
   confirmarExclusao(lancamento: any) {
     this.confirmation.confirm({
-      message: `Excluir lançamento <strong>${lancamento.codigo}</strong>?`,
+      message: `Excluir lançamento <strong>${lancamento.descricao}</strong>?`,
       accept: () => {
         this.excluir(lancamento);
       }
@@ -65,8 +69,8 @@ export class LancamentosPesquisaComponent implements OnInit {
         }
 
         this.toasty.success({
-          title: 'Exclusão <br>',
-          msg: `Lançamento <strong>${lancamento.codigo}</strong> excluído com sucesso!`,
+          title: 'EXCLUINDO <br>',
+          msg: `Lançamento <strong>${lancamento.descricao}</strong> excluído com sucesso!`,
           timeout: 4000,
           showClose: false,
           theme: 'bootstrap'

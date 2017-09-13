@@ -1,3 +1,4 @@
+import { Title } from '@angular/platform-browser';
 import { FormControl } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -33,11 +34,13 @@ export class LancamentoCadastroComponent implements OnInit {
     private errorHandler: ErrorHandlerService,
     private toasty: ToastyService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private title: Title
   ) { }
 
   ngOnInit() {
     const codigoLancamento = this.route.snapshot.params['codigo'];
+    this.title.setTitle('Novo lancamento');
 
     if (codigoLancamento) {
       this.carregarLancamento(codigoLancamento);
@@ -74,7 +77,7 @@ export class LancamentoCadastroComponent implements OnInit {
       .then(lancamentoAdicionado => {
 
         this.toasty.success({
-          title: '<strong>Incluindo...<strong> <br>',
+          title: '<strong>INCLUINDO...<strong> <br>',
           msg: `Lançamento <strong>${lancamentoAdicionado.descricao}</strong>
             adicionado com sucesso!`,
           timeout: 4000,
@@ -109,6 +112,7 @@ export class LancamentoCadastroComponent implements OnInit {
     this.lancamentoService.buscarPorCodigo(codigo)
       .then(lancamento => {
         this.lancamento = lancamento;
+        this.atualizarTituloEdicao();
       })
       .catch(erro => this.errorHandler.handler(erro));
   }
@@ -117,9 +121,10 @@ export class LancamentoCadastroComponent implements OnInit {
     this.lancamentoService.atualizar(this.lancamento)
     .then(lancamento => {
       this.lancamento = lancamento;
+      this.atualizarTituloEdicao();
 
       this.toasty.success({
-        title: '<strong>Atualizando...<strong> <br>',
+        title: '<strong>ATUALIZANDO<strong> <br>',
         msg: `Lançamento <strong>${this.lancamento.descricao}</strong>
           atualizado com sucesso!`,
         timeout: 4000,
@@ -131,5 +136,9 @@ export class LancamentoCadastroComponent implements OnInit {
       // this.lancamento = new Lancamento();
     })
     .catch(erro => this.errorHandler.handler(erro));
+  }
+
+  atualizarTituloEdicao() {
+    this.title.setTitle(`Editando ${this.lancamento.descricao}`);
   }
 }

@@ -1,3 +1,4 @@
+import { Title } from '@angular/platform-browser';
 import { FormControl } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 
@@ -19,10 +20,12 @@ export class PessoaCadastroComponent implements OnInit {
   constructor(
     private pessoaService: PessoaService,
     private errorHandler: ErrorHandlerService,
-    private toasty: ToastyService
+    private toasty: ToastyService,
+    private title: Title
   ) { }
 
   ngOnInit() {
+    this.title.setTitle('Nova pessoa');
   }
 
   salvar(form: FormControl) {
@@ -31,7 +34,7 @@ export class PessoaCadastroComponent implements OnInit {
         this.pessoa = response;
 
         this.toasty.success({
-          title: '<strong>Incluindo...<strong><br>',
+          title: '<strong>INCLUINDO<strong><br>',
           msg: `<strong>${this.pessoa.nome}</strong> adicionado com sucesso!`,
           showClose: false,
           theme: 'bootstrap',
