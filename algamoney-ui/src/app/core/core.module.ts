@@ -11,6 +11,7 @@ import { ErrorHandlerService } from './error-handler.service';
 import { LancamentoService } from '../lancamentos/lancamento.service';
 import { PessoaService } from '../pessoa/pessoa.service';
 import { CategoriasService } from '../categorias/categorias.service';
+import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada.component';
 
 @NgModule({
   imports: [
@@ -21,7 +22,8 @@ import { CategoriasService } from '../categorias/categorias.service';
     ConfirmDialogModule,
   ],
   declarations: [
-    NavbarComponent
+    NavbarComponent,
+    PaginaNaoEncontradaComponent
   ],
   exports: [
     NavbarComponent,
