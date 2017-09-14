@@ -8,11 +8,11 @@ const routes: Routes = [
     { path: 'pessoas', component: PessoasPesquisaComponent },
     { path: 'pessoas/novo', component: PessoaCadastroComponent },
     { path: 'pessoas/:codigo', component: PessoaCadastroComponent },
-  ];
+];
 
 @NgModule({
     imports: [
-        RouterModule.forRoot(routes)
+        RouterModule.forChild(routes)
     ],
     exports: [
         RouterModule
