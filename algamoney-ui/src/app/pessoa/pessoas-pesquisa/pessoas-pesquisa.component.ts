@@ -81,12 +81,12 @@ export class PessoasPesquisaComponent implements OnInit {
     const novoStatus = !pessoa.ativo;
     this.pessoaService.mudarStatus(pessoa.codigo, novoStatus)
       .then(() => {
-        const acao = novoStatus ? 'ativada' : 'desativada';
+        const acao = novoStatus ? 'ATIVADA' : 'DESATIVADA';
         pessoa.ativo = novoStatus;
 
         this.toasty.success({
-          title: 'Status <br>',
-          msg: `Pessoa <strong>${acao}</strong> com sucesso!`,
+          title: 'ALTERANDO STATUS <br>',
+          msg: `${ pessoa.nome } <strong>${ acao }</strong> com sucesso!`,
           timeout: 4000,
           showClose: false,
           theme: 'bootstrap'
