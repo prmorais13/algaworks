@@ -1,7 +1,9 @@
-import { Http, Headers, URLSearchParams } from '@angular/http';
+import { URLSearchParams } from '@angular/http';
 import { Injectable } from '@angular/core';
-import 'rxjs/add/operator/toPromise';
+
+// import 'rxjs/add/operator/toPromise';
 import * as moment from 'moment';
+import { AuthHttp } from 'angular2-jwt';
 
 import { Lancamento } from '../core/modelo';
 import { environment } from '../../environments/environment';
@@ -18,18 +20,12 @@ export class LancamentoFiltro {
 export class LancamentoService {
 
   lancamentoUrl = 'http://localhost:8080/lancamentos';
-  // token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MDU0NTU0NTEsInVzZXJfbmFtZSI6InBybW9yYWlzXzEzQGhvdG1haWwuY29tIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9DQURBU1RSQVJfQ0FURUdPUklBIiwiUk9MRV9QRVNRVUlTQVJfUEVTU09BIiwiUk9MRV9SRU1PVkVSX1BFU1NPQSIsIlJPTEVfQ0FEQVNUUkFSX0xBTkNBTUVOVE8iLCJST0xFX1BFU1FVSVNBUl9MQU5DQU1FTlRPIiwiUk9MRV9SRU1PVkVSX0xBTkNBTUVOVE8iLCJST0xFX0NBREFTVFJBUl9QRVNTT0EiLCJST0xFX1BFU1FVSVNBUl9DQVRFR09SSUEiLCJST0xFX1JFTU9WRVJfQ0FURUdPUklBIl0sImp0aSI6IjE4MDg4YzkwLWU5ZWUtNDMyMC1hYThlLWE0ZDI0NGEyZDkwOSIsImNsaWVudF9pZCI6ImFuZ3VsYXIiLCJzY29wZSI6WyJyZWFkIiwid3JpdGUiXX0.BBpEG1WZ-DYlpBVfBsyvghge7b4-CMvnddjO0VDy2_g';
   token: string;
 
-  constructor(private http: Http) {
-    this.token = `Bearer ${environment.token}`;
-   }
+  constructor(private http: AuthHttp) { }
 
   pesquisar(filtro: LancamentoFiltro): Promise<any> {
     const params = new URLSearchParams();
-    const headers = new Headers();
-
-    headers.append('Authorization', this.token);
 
     params.set('page', filtro.pagina.toString());
     params.set('size', filtro.itensPorPagina.toString());
@@ -50,7 +46,7 @@ export class LancamentoService {
     }
 
     return this.http.get(`${this.lancamentoUrl}?resumo`,
-      { headers: headers, search: params })
+      { search: params })
       .toPromise()
       .then(response => {
         const resultado  = {
@@ -63,32 +59,23 @@ export class LancamentoService {
   }
 
   excluir(codigo: number): Promise<void> {
-    const headers = new Headers();
-    headers.append('Authorization', this.token);
 
-    return this.http.delete(`${this.lancamentoUrl}/${codigo}`, { headers: headers })
+    return this.http.delete(`${this.lancamentoUrl}/${codigo}`)
       .toPromise()
       .then(() => null);
   }
 
   adicionar(lancamento: Lancamento): Promise<Lancamento> {
-    const headers = new Headers();
-    headers.append('Authorization', this.token);
-    headers.append('Content-Type', 'application/json');
 
-    return this.http.post(this.lancamentoUrl, JSON.stringify(lancamento),
-        { headers: headers })
+    return this.http.post(this.lancamentoUrl, JSON.stringify(lancamento))
       .toPromise()
       .then(response => response.json());
   }
 
   atualizar(lancamento: Lancamento): Promise<Lancamento> {
-    const headers = new Headers();
-    headers.append('Authorization', this.token);
-    headers.append('Content-Type', 'application/json');
 
     return this.http.put(`${this.lancamentoUrl}/${lancamento.codigo}`,
-      JSON.stringify(lancamento), { headers: headers })
+      JSON.stringify(lancamento))
       .toPromise()
       .then(response => {
         const lancamentoAlterado = response.json() as Lancamento;
@@ -100,11 +87,8 @@ export class LancamentoService {
   }
 
   buscarPorCodigo(codigo: number): Promise<Lancamento> {
-    const headers = new Headers();
-    headers.append('Authorization', this.token);
 
-    return this.http.get(`${this.lancamentoUrl}/${codigo}`,
-      { headers: headers})
+    return this.http.get(`${this.lancamentoUrl}/${codigo}`)
     .toPromise()
     .then(response => {
       const lancamento = response.json() as Lancamento;

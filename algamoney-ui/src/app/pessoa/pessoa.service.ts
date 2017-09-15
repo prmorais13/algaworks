@@ -1,9 +1,9 @@
-import { Headers, Http, URLSearchParams } from '@angular/http';
+import { URLSearchParams } from '@angular/http';
 import { Injectable } from '@angular/core';
-import 'rxjs/add/operator/toPromise';
+// import 'rxjs/add/operator/toPromise';
 
 import { Pessoa } from '../core/modelo';
-import { environment } from '../../environments/environment';
+import { AuthHttp } from 'angular2-jwt';
 
 export class PessoaFiltro {
   nome: string;
@@ -13,20 +13,15 @@ export class PessoaFiltro {
 
 @Injectable()
 export class PessoaService {
-  // token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MDU0NTU0NTEsInVzZXJfbmFtZSI6InBybW9yYWlzXzEzQGhvdG1haWwuY29tIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9DQURBU1RSQVJfQ0FURUdPUklBIiwiUk9MRV9QRVNRVUlTQVJfUEVTU09BIiwiUk9MRV9SRU1PVkVSX1BFU1NPQSIsIlJPTEVfQ0FEQVNUUkFSX0xBTkNBTUVOVE8iLCJST0xFX1BFU1FVSVNBUl9MQU5DQU1FTlRPIiwiUk9MRV9SRU1PVkVSX0xBTkNBTUVOVE8iLCJST0xFX0NBREFTVFJBUl9QRVNTT0EiLCJST0xFX1BFU1FVSVNBUl9DQVRFR09SSUEiLCJST0xFX1JFTU9WRVJfQ0FURUdPUklBIl0sImp0aSI6IjE4MDg4YzkwLWU5ZWUtNDMyMC1hYThlLWE0ZDI0NGEyZDkwOSIsImNsaWVudF9pZCI6ImFuZ3VsYXIiLCJzY29wZSI6WyJyZWFkIiwid3JpdGUiXX0.BBpEG1WZ-DYlpBVfBsyvghge7b4-CMvnddjO0VDy2_g';
+
   token: string;
   pessoaUrl = 'http://localhost:8080/pessoas';
 
-  constructor(private http: Http) {
-    this.token = `Bearer ${environment.token}`;
-  }
+  constructor(private http: AuthHttp) { }
 
   pesquisar(filtro: PessoaFiltro): Promise<any> {
 
     const params = new URLSearchParams();
-    const headers = new Headers();
-
-    headers.append('Authorization', this.token);
 
     params.set('page', filtro.pagina.toString());
     params.set('size', filtro.itensPorPagina.toString());
@@ -35,7 +30,7 @@ export class PessoaService {
       params.set('nome', filtro.nome);
     }
 
-    return this.http.get(this.pessoaUrl, { headers: headers, search: params })
+    return this.http.get(this.pessoaUrl, { search: params })
       .toPromise()
       .then(response => {
         const resultado = {
@@ -48,62 +43,45 @@ export class PessoaService {
   }
 
   listarPessoas(): Promise<any> {
-    const headers = new Headers();
-    headers.append('Authorization', this.token);
 
-    return this.http.get(`${this.pessoaUrl}`, { headers: headers })
+    return this.http.get(`${this.pessoaUrl}`)
     .toPromise()
     .then(response => response.json().content);
   }
 
   buscarPorCodigo(codigo: number): Promise<Pessoa> {
-    const headers = new Headers();
-    headers.append('Authorization', this.token);
 
-    return this.http.get(`${ this.pessoaUrl }/${ codigo }`,
-      { headers: headers})
+    return this.http.get(`${ this.pessoaUrl }/${ codigo }`)
     .toPromise()
     .then(response => response.json());
   }
 
   mudarStatus(codigo: number, ativo: boolean): Promise<void> {
-    const headers = new Headers();
-    headers.append('Authorization', this.token);
-    headers.append('Content-Type', 'application/json');
 
-    return this.http.put(`${this.pessoaUrl}/${codigo}/ativo`, ativo, { headers: headers })
+    return this.http.put(`${this.pessoaUrl}/${codigo}/ativo`, ativo)
     .toPromise()
     .then(() => null);
   }
 
 
   adicionar(pessoa: Pessoa): Promise<Pessoa> {
-    const headers = new Headers();
-    headers.append('Authorization', this.token);
-    headers.append('Content-Type', 'application/json');
 
-    return this.http.post(this.pessoaUrl, JSON.stringify(pessoa),
-    { headers: headers})
+    return this.http.post(this.pessoaUrl, JSON.stringify(pessoa))
     .toPromise()
     .then(response => response.json());
   }
 
   atualizar(pessoa: Pessoa): Promise<Pessoa> {
-    const headers = new Headers();
-    headers.append('Authorization', this.token);
-    headers.append('Content-Type', 'application/json');
 
     return this.http.put(`${ this.pessoaUrl }/${ pessoa.codigo }`,
-    JSON.stringify(pessoa), { headers: headers })
+    JSON.stringify(pessoa))
     .toPromise()
     .then(response => response.json());
   }
 
   excluir(codigo: number): Promise<void> {
-    const headers = new Headers();
-    headers.append('Authorization', this.token);
 
-    return this.http.delete(`${this.pessoaUrl}/${codigo}`, { headers: headers })
+    return this.http.delete(`${this.pessoaUrl}/${codigo}`)
       .toPromise()
       .then(() => null);
   }
