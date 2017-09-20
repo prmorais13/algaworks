@@ -2,6 +2,7 @@ import { Http, Headers } from '@angular/http';
 import { Injectable } from '@angular/core';
 
 import { JwtHelper } from 'angular2-jwt';
+// import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class AuthService {
@@ -24,10 +25,11 @@ export class AuthService {
 
     const body = `username=${usuario}&password=${senha}&grant_type=password`;
 
-    return this.http.post(this.oauthTokenUrl, body, { headers: headers })
+    return this.http.post(this.oauthTokenUrl, body, { headers, withCredentials: true })
       .toPromise()
       .then(response => {
         this.armazenarToken(response.json().access_token);
+        console.log('Access token do login', response);
       })
       .catch(response => {
         if (response.status === 400) {
@@ -40,6 +42,31 @@ export class AuthService {
 
         return Promise.reject(response);
       });
+  }
+
+  temPermissao(permissao: string) {
+    return this.jwtPayload && this.jwtPayload.authorities.includes(permissao);
+  }
+
+  obterNovoAccessToken(): Promise<void> {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+    headers.append('Authorization', 'Basic YW5ndWxhcjpAbmd1bEBy');
+
+    const body = 'grant_type=refresh_token';
+
+    return this.http.post(this.oauthTokenUrl, body, { headers, withCredentials: true })
+      .toPromise()
+      .then(response => {
+        this.armazenarToken(response.json().access_token);
+        console.log('Novo access token criado!');
+        return Promise.resolve(null);
+      })
+      .catch(response => {
+        console.log('Erro ao renovar token!', response);
+        return Promise.resolve(null);
+      });
+
   }
 
   private armazenarToken(token: string) {
