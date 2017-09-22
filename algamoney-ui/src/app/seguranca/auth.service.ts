@@ -2,7 +2,7 @@ import { Http, Headers } from '@angular/http';
 import { Injectable } from '@angular/core';
 
 import { JwtHelper } from 'angular2-jwt';
-// import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class AuthService {
@@ -42,6 +42,11 @@ export class AuthService {
 
         return Promise.reject(response);
       });
+  }
+
+  isAccessTokenInvalido() {
+    const token = localStorage.getItem('token');
+    return !token || this.jwtHelper.isTokenExpired(token);
   }
 
   temPermissao(permissao: string) {
