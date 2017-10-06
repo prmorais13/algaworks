@@ -1,3 +1,4 @@
+import { HttpModule } from '@angular/http';
 import { Title } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { NgModule, LOCALE_ID } from '@angular/core';
@@ -16,10 +17,12 @@ import { AuthService } from './../seguranca/auth.service';
 
 import { NavbarComponent } from './navbar/navbar.component';
 import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada.component';
+import { NaoAutorizadoComponent } from './nao-autorizado.component';
 
 @NgModule({
   imports: [
     CommonModule,
+    HttpModule,
     RouterModule,
 
     ToastyModule.forRoot(),
@@ -27,7 +30,8 @@ import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada.component'
   ],
   declarations: [
     NavbarComponent,
-    PaginaNaoEncontradaComponent
+    PaginaNaoEncontradaComponent,
+    NaoAutorizadoComponent
   ],
   exports: [
     NavbarComponent,

@@ -15,10 +15,15 @@ export class ErrorHandlerService {
     if (typeof errorResponse === 'string') {
       msg = errorResponse;
 
-    } else if (errorResponse instanceof Response && errorResponse.status >= 400 && errorResponse.status <= 499) {
+    } else if (errorResponse instanceof Response && errorResponse.status >= 400
+        && errorResponse.status <= 499) {
 
       let errors;
       msg = 'Ocorreu um erro ao processar sua solicitação!';
+
+      if (errorResponse.status === 403) {
+        msg = 'Você não tem permissão para executar essa ação!';
+      }
 
       try {
         errors = errorResponse.json();
@@ -35,7 +40,7 @@ export class ErrorHandlerService {
 
     // this.toasty.error(msg);
     this.toasty.error({
-      title: 'Erro <br>',
+      title: 'ATENÇÃO: <br>',
       msg: `${msg}`,
       timeout: 4000,
       showClose: false,

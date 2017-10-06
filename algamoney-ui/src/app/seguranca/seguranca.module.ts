@@ -7,6 +7,7 @@ import { AuthHttp, AuthConfig } from 'angular2-jwt';
 import { ButtonModule } from 'primeng/components/button/button';
 import { InputTextModule } from 'primeng/components/inputtext/inputtext';
 
+import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
 import { ApicursoHttp } from './apicurso-http';
 import { LoginFormComponent } from './login-form/login-form.component';
@@ -37,6 +38,7 @@ export function authHttpServiceFactory(auth: AuthService, http: Http, options: R
     LoginFormComponent
   ],
   providers: [
+    AuthGuard,
     {
       provide: AuthHttp,
       useFactory: authHttpServiceFactory,
