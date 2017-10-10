@@ -50,7 +50,7 @@ export class ApicursoHttp extends AuthHttp {
 
     private fazerRequisicao(fn: Function): Observable<Response> {
         if (this.auth.isAccessTokenInvalido()) {
-            console.log('Requesição com access token inválido. Obtendo novo token');
+            console.log('Requesição HTTP com access token inválido. Obtendo novo token...');
             const chamadaNovoAccessToken = this.auth.obterNovoAccessToken()
                 .then(() => {
                     if (this.auth.isAccessTokenInvalido()) {
