@@ -7,6 +7,8 @@ import { Observable } from 'rxjs/Observable';
 
 import { AuthService } from './auth.service';
 
+export class NotAuthenticatedError {}
+
 @Injectable()
 export class ApicursoHttp extends AuthHttp {
     constructor(
@@ -51,6 +53,9 @@ export class ApicursoHttp extends AuthHttp {
             console.log('Requesição com access token inválido. Obtendo novo token');
             const chamadaNovoAccessToken = this.auth.obterNovoAccessToken()
                 .then(() => {
+                    if (this.auth.isAccessTokenInvalido()) {
+                        throw new NotAuthenticatedError();
+                    }
                     return fn().toPromise();
                 });
             return Observable.fromPromise(chamadaNovoAccessToken);

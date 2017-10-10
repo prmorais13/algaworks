@@ -7,6 +7,7 @@ import { AuthHttp, AuthConfig } from 'angular2-jwt';
 import { ButtonModule } from 'primeng/components/button/button';
 import { InputTextModule } from 'primeng/components/inputtext/inputtext';
 
+import { LogoutService } from './logout.service';
 import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
 import { ApicursoHttp } from './apicurso-http';
@@ -39,6 +40,7 @@ export function authHttpServiceFactory(auth: AuthService, http: Http, options: R
   ],
   providers: [
     AuthGuard,
+    LogoutService,
     {
       provide: AuthHttp,
       useFactory: authHttpServiceFactory,
