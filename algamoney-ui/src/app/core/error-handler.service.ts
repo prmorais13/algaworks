@@ -14,7 +14,7 @@ export class ErrorHandlerService {
 
     if (typeof errorResponse === 'string') {
       msg = errorResponse;
-
+      // teste
     } else if (errorResponse instanceof Response && errorResponse.status >= 400
         && errorResponse.status <= 499) {
 
