@@ -20,15 +20,7 @@ export class ErrorHandlerService {
 
     if (typeof errorResponse === 'string') {
       msg = errorResponse;
-<<<<<<< HEAD
-      // teste
-=======
-    } else if (errorResponse instanceof NotAuthenticatedError) {
 
-      msg = 'Sua sessão expirou! Faça login novamente,';
-      this.router.navigate(['/login']);
-
->>>>>>> 344576c9cdd1f99603a1d470fa49a2d6021478dd
     } else if (errorResponse instanceof Response && errorResponse.status >= 400
         && errorResponse.status <= 499) {
 
