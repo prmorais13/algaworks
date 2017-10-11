@@ -18,10 +18,11 @@ export class LancamentoFiltro {
 @Injectable()
 export class LancamentoService {
 
-  lancamentoUrl = 'http://localhost:8080/lancamentos';
-  token: string;
+  lancamentoUrl: string;
 
-  constructor(private http: AuthHttp) { }
+  constructor(private http: AuthHttp) {
+    this.lancamentoUrl = `${environment.apiUrl}/lancamentos`;
+  }
 
   pesquisar(filtro: LancamentoFiltro): Promise<any> {
     const params = new URLSearchParams();

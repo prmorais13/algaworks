@@ -7,10 +7,11 @@ import { AuthHttp } from 'angular2-jwt';
 @Injectable()
 export class CategoriasService {
 
-  categoriasUrl = 'http://localhost:8080/categorias';
-  token: string;
+  categoriasUrl: string;
 
-  constructor(private http: AuthHttp) { }
+  constructor(private http: AuthHttp) {
+    this.categoriasUrl = `${environment.apiUrl}/categorias`;
+  }
 
   listarTodas(): Promise<any> {
 
