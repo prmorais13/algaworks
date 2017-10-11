@@ -7,7 +7,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { AuthService } from './auth.service';
 
-export class NotAuthenticatedError {}
+export class NotAuthenticatedError { }
 
 @Injectable()
 export class ApicursoHttp extends AuthHttp {

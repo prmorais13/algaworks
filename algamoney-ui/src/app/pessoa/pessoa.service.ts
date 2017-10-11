@@ -14,13 +14,12 @@ export class PessoaFiltro {
 @Injectable()
 export class PessoaService {
 
-  token: string;
   pessoaUrl = 'http://localhost:8080/pessoas';
+  token: string;
 
   constructor(private http: AuthHttp) { }
 
   pesquisar(filtro: PessoaFiltro): Promise<any> {
-
     const params = new URLSearchParams();
 
     params.set('page', filtro.pagina.toString());

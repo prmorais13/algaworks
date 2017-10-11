@@ -1,6 +1,5 @@
 import { URLSearchParams } from '@angular/http';
 import { Injectable } from '@angular/core';
-
 // import 'rxjs/add/operator/toPromise';
 import * as moment from 'moment';
 import { AuthHttp } from 'angular2-jwt';

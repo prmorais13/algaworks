@@ -13,7 +13,11 @@ export class LogoutService {
   ) { }
 
   logout() {
-    return this.http.delete(this.tokenRevokeUrl, {})
+    return this.http.delete(this.tokenRevokeUrl, { withCredentials: true })
+      .toPromise()
+      .then(() => {
+        this.auth.limparAccessToken();
+      });
   }
 
 }
