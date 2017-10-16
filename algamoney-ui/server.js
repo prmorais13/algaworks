@@ -7,6 +7,6 @@ app.get('/*', function(req, res) {
   res.sendFile(__dirname + '/dist/index.html');
 });
 
-app.listen(4200, function() {
-  console.log("Servidor rodando em http://localhost:4200")
+app.listen(process.env.PORT || 4200, function() {
+  console.log("Servidor rodando")
 });
