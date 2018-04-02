@@ -11,9 +11,8 @@ import { LancamentoCadastroComponent } from './lancamentos/lancamento-cadastro/l
 import { LancamentosPesquisaComponent } from './lancamentos/lancamentos-pesquisa/lancamentos-pesquisa.component';
 import { PaginaNaoEncontradaComponent } from './core/pagina-nao-encontrada.component';
 import { AppComponent } from './app.component';
+
 import { CoreModule } from './core/core.module';
-import { PessoaModule } from './pessoa/pessoa.module';
-import { LancamentoModule } from './lancamentos/lancamento.module';
 import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
@@ -25,8 +24,6 @@ import { AppRoutingModule } from './app-routing.module';
     BrowserAnimationsModule,
     HttpModule,
 
-    LancamentoModule,
-    PessoaModule,
     CoreModule,
     SegurancaModule,
     AppRoutingModule,
