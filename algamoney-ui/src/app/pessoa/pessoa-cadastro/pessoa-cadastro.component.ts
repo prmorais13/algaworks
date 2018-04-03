@@ -1,6 +1,6 @@
 import { Router, ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 
 import { ToastyService } from 'ng2-toasty';
@@ -16,9 +16,11 @@ import { ErrorHandlerService } from '../../core/error-handler.service';
 })
 export class PessoaCadastroComponent implements OnInit {
 
-  pessoa: Pessoa = new Pessoa();
+  // pessoa: Pessoa = new Pessoa();
+  formulario: FormGroup;
 
   constructor(
+    private fb: FormBuilder,
     private pessoaService: PessoaService,
     private errorHandler: ErrorHandlerService,
     private toasty: ToastyService,
@@ -28,6 +30,7 @@ export class PessoaCadastroComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.configuraForm();
     const codigoPessoa = this.route.snapshot.params['codigo'];
     this.title.setTitle('Nova pessoa');
 
@@ -36,12 +39,31 @@ export class PessoaCadastroComponent implements OnInit {
     }
   }
 
-  get editando() {
-    return Boolean(this.pessoa.codigo);
+  configuraForm() {
+    this.formulario = this.fb.group({
+      codigo: [],
+      nome: [ null, [ Validators.required, Validators.minLength(10) ] ],
+      endereco: this.fb.group({
+        logradouro: [ null, Validators.required],
+        numero: [ null, Validators.required ],
+        complemento: [],
+        bairro: [ null, Validators.required ],
+        cep: [ null, Validators.required ],
+        cidade: [ null, Validators.required ],
+        estado: [ null, Validators.required ]
+      })
+    });
   }
 
-  novo (form: FormControl) {
-    form.reset();
+  get editando() {
+    // return Boolean(this.pessoa.codigo);
+    return Boolean(this.formulario.get('codigo').value);
+  }
+
+  // novo (form: FormControl) {
+  novo () {
+    // form.reset();
+    this.formulario.reset();
 
     setTimeout(function() {
       this.pessoa = new Pessoa();
@@ -50,16 +72,21 @@ export class PessoaCadastroComponent implements OnInit {
     this.router.navigate(['/pessoas/novo']);
   }
 
-  salvar(form: FormControl) {
+  // salvar(form: FormControl) {
+  salvar() {
     if (this.editando) {
-      this.atualizarPessoa(form);
+      // this.atualizarPessoa(form);
+      this.atualizarPessoa();
     } else {
-      this.adicionarPessoa(form);
+      // this.adicionarPessoa(form);
+      this.adicionarPessoa();
     }
   }
 
-  adicionarPessoa(form: FormControl) {
-    this.pessoaService.adicionar(this.pessoa)
+/*   adicionarPessoa(form: FormControl) {
+    this.pessoaService.adicionar(this.pessoa) */
+  adicionarPessoa() {
+    this.pessoaService.adicionar(this.formulario.value)
       .then(pessoaAdicionada => {
 
         this.toasty.success({
@@ -77,20 +104,21 @@ export class PessoaCadastroComponent implements OnInit {
       .catch(erro => this.errorHandler.handler(erro));
   }
 
-  atualizarPessoa(form: FormControl) {
-    this.pessoaService.atualizar(this.pessoa)
-    .then(pessoaAtualizada => {
+/*   atualizarPessoa(form: FormControl) {
+    this.pessoaService.atualizar(this.pessoa) */
+  atualizarPessoa() {
+    this.pessoaService.atualizar(this.formulario.value)
+      .then(pessoaAtualizada => {
 
-      this.atualizarTituloEdicao();
+        this.atualizarTituloEdicao();
 
-      this.toasty.success({
-        title: '<strong>ATUALIZANDO<strong><br>',
-        msg: `<strong>${ pessoaAtualizada.nome }</strong> atualizada com sucesso!`,
-        showClose: false,
-        theme: 'bootstrap',
-        timeout: 4000
-      });
-
+        this.toasty.success({
+          title: '<strong>ATUALIZANDO<strong><br>',
+          msg: `<strong>${ pessoaAtualizada.nome }</strong> atualizada com sucesso!`,
+          showClose: false,
+          theme: 'bootstrap',
+          timeout: 4000
+        });
     })
     .catch(erro => this.errorHandler.handler(erro));
   }
@@ -98,14 +126,16 @@ export class PessoaCadastroComponent implements OnInit {
   carregarPessoa(codigo: number) {
     this.pessoaService.buscarPorCodigo(codigo)
       .then(pessoaEncontrada => {
-        this.pessoa = pessoaEncontrada;
+        // this.pessoa = pessoaEncontrada;
+        this.formulario.patchValue(pessoaEncontrada);
         this.atualizarTituloEdicao();
       })
       .catch(erro => this.errorHandler.handler(erro));
   }
 
   atualizarTituloEdicao() {
-    this.title.setTitle(`Editando ${ this.pessoa.nome }`);
+    // this.title.setTitle(`Editando ${ this.pessoa.nome }`);
+    this.title.setTitle(`Editando ${this.formulario.get('nome')}`);
   }
 
 }

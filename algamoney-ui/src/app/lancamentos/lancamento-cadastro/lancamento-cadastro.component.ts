@@ -62,7 +62,7 @@ export class LancamentoCadastroComponent implements OnInit {
       descricao: [ null, [ Validators.required, Validators.minLength(5) ] ],
       valor: [ null, Validators.required ],
       pessoa: this.fb.group({
-        codigo: [ null, Validators.required],
+        codigo: [ null, Validators.required ],
         nome: []
       }),
       categoria: this.fb.group({
