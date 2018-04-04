@@ -13,15 +13,14 @@
             text="Informe um nome"></app-message>
 
         <app-message [control]="formulario.get('nome')" error="minlength"
-          text="O nome deve ter no mínimo
-              {{ formulario.get('nome').errors?.minlength?.requiredLength }} caracteres!">"></app-message>
+          text="O nome deve ter no mínimo {{ formulario.get('nome').errors?.minlength?.requiredLength }} caracteres!">"></app-message>
       </div>
 
       <div class="ui-g-12 ui-md-9 ui-fluid" formGroupName="endereco">
         <label>Logradouro</label>
         <input name="logradouro" pInputText type="text" formControlName="logradouro">
 
-        <app-message [control]="formulario.get('logradouro')" error="required"
+        <app-message [control]="formulario.get('endereco.logradouro')" error="required"
           text="Informe o logradouro"></app-message>
       </div>
 
@@ -29,7 +28,7 @@
         <label>Número</label>
         <input  name="numero" pInputText type="text" formControlName="numero">
 
-        <app-message [control]="formulario.get('numero')" error="required"
+        <app-message [control]="formulario.get('endereco.numero')" error="required"
         text="Informe o número"></app-message>
       </div>
 
@@ -43,7 +42,7 @@
         <label>Bairro</label>
         <input name="bairro" pInputText type="text" formControlName="bairro">
 
-        <app-message [control]="formulario.get('bairro')" error="required"
+        <app-message [control]="formulario.get('endereco.bairro')" error="required"
           text="Informe o bairro"></app-message>
       </div>
 
@@ -51,7 +50,7 @@
         <label>CEP</label>
         <p-inputMask  name="cep" mask="99.999-999" formControlName="cep"></p-inputMask>
 
-        <app-message [control]="formulario.get('cep')" error="required"
+        <app-message [control]="formulario.get('endereco.cep')" error="required"
           text="Informe o CEP"></app-message>
       </div>
 
@@ -59,7 +58,7 @@
         <label>Cidade</label>
         <input name="cidade" pInputText type="text"  formControlName="cidade">
 
-        <app-message [control]="formulario.get('cidade')" error="required"
+        <app-message [control]="formulario.get('endereco.cidade')" error="required"
           text="Informe a cidade"></app-message>
       </div>
 
@@ -67,15 +66,16 @@
         <label>Estado</label>
         <input  name="estado" pInputText type="text" formControlName="estado">
 
-        <app-message [control]="formulario.get('estado')" error="required"
+        <app-message [control]="formulario.get('endereco.estado')" error="required"
           text="Informe o estado"></app-message>
       </div>
 
       <div class="ui-g-12">
         <button pButton type="submit" label="Salvar"></button>
 
-          <button pButton class="ui-button-info" type="button" label="Novo"
-            (click)="novo()"></button>
+        <button pButton class="ui-button-info" type="button" label="Novo"
+          (click)="novo()"></button>
+          
         <a routerLink="/pessoas">Voltar para a pesquisa</a>
       </div>
     </div>

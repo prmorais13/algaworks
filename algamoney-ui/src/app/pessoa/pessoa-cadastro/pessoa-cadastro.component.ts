@@ -31,6 +31,7 @@ export class PessoaCadastroComponent implements OnInit {
 
   ngOnInit() {
     this.configuraForm();
+
     const codigoPessoa = this.route.snapshot.params['codigo'];
     this.title.setTitle('Nova pessoa');
 
@@ -43,6 +44,7 @@ export class PessoaCadastroComponent implements OnInit {
     this.formulario = this.fb.group({
       codigo: [],
       nome: [ null, [ Validators.required, Validators.minLength(10) ] ],
+      // ativo: [ true ],
       endereco: this.fb.group({
         logradouro: [ null, Validators.required],
         numero: [ null, Validators.required ],
