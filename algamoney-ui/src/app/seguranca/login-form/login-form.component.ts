@@ -10,7 +10,7 @@ import { ErrorHandlerService } from '../../core/error-handler.service';
   templateUrl: './login-form.component.html',
   styleUrls: ['./login-form.component.css']
 })
-export class LoginFormComponent implements OnInit{
+export class LoginFormComponent implements OnInit {
 
   constructor(
     private auth: AuthService,
@@ -27,7 +27,7 @@ export class LoginFormComponent implements OnInit{
 
     this.auth.login(usuario, senha)
       .then(() => {
-        this.router.navigate(['/lancamentos']);
+        this.router.navigate(['/dashboard']);
       })
       .catch(erro => {
         this.errorHandler.handler(erro);
