@@ -5,8 +5,11 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { AuthGuard } from '../seguranca/auth.guard';
 
 const routes: Routes = [
-  { path: '', component: DashboardComponent, canActivate: [ AuthGuard ],
-    data: { roles: [ 'ROLE_PESQUISAR_LANCAMENTO']}
+  {
+    path: '',
+    component: DashboardComponent,
+    canActivate: [ AuthGuard ],
+    data: { role: [ 'ROLE_PESQUISAR_LANCAMENTO' ]}
   }
 ];
 
