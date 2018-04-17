@@ -7,6 +7,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
+import { PanelModule } from 'primeng/panel';
 
 import { SharedModule } from '../shared/shared.module';
 import { PessoaRoutingModule } from './pessoa-routing.module';
@@ -25,6 +26,7 @@ import { PessoaCadastroComponent } from './pessoa-cadastro/pessoa-cadastro.compo
     TableModule,
     TooltipModule,
     InputMaskModule,
+    PanelModule,
 
     SharedModule,
     PessoaRoutingModule

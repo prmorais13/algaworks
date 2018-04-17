@@ -16,6 +16,7 @@ import { PessoaService } from '../pessoa/pessoa.service';
 import { CategoriasService } from '../categorias/categorias.service';
 import { DashboardService } from '../dashboard/dashboard.service';
 import { AuthService } from './../seguranca/auth.service';
+import { RelatoriosService } from '../relatorios/relatorios.service';
 
 import { NavbarComponent } from './navbar/navbar.component';
 import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada.component';
@@ -48,6 +49,7 @@ registerLocaleData(localePt);
     PessoaService,
     CategoriasService,
     DashboardService,
+    RelatoriosService,
     AuthService,
 
     ConfirmationService,
