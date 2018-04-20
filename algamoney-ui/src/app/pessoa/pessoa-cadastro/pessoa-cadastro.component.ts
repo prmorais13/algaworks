@@ -53,7 +53,8 @@ export class PessoaCadastroComponent implements OnInit {
         cep: [ null, Validators.required ],
         cidade: [ null, Validators.required ],
         estado: [ null, Validators.required ]
-      })
+      }),
+      contatos: [ null ]
     });
   }
 
@@ -130,6 +131,8 @@ export class PessoaCadastroComponent implements OnInit {
       .then(pessoaEncontrada => {
         // this.pessoa = pessoaEncontrada;
         this.formulario.patchValue(pessoaEncontrada);
+        console.log(pessoaEncontrada);
+
         this.atualizarTituloEdicao();
       })
       .catch(erro => this.errorHandler.handler(erro));
