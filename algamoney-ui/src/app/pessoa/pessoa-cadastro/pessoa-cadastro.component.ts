@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { ToastyService } from 'ng2-toasty';
 
-import { Pessoa, Endereco } from '../../core/modelo';
+import { Pessoa, Endereco, Contato } from '../../core/modelo';
 import { PessoaService } from '../pessoa.service';
 import { ErrorHandlerService } from '../../core/error-handler.service';
 
@@ -18,6 +18,8 @@ export class PessoaCadastroComponent implements OnInit {
 
   // pessoa: Pessoa = new Pessoa();
   formulario: FormGroup;
+  contatos = [];
+  exibindoFormularioContato = false;
 
   constructor(
     private fb: FormBuilder,
@@ -53,9 +55,12 @@ export class PessoaCadastroComponent implements OnInit {
         cep: [ null, Validators.required ],
         cidade: [ null, Validators.required ],
         estado: [ null, Validators.required ]
-      }),
-      contatos: [ null ]
+      })
     });
+  }
+
+  prepararNovoContato() {
+    this.exibindoFormularioContato = true;
   }
 
   get editando() {
@@ -131,7 +136,7 @@ export class PessoaCadastroComponent implements OnInit {
       .then(pessoaEncontrada => {
         // this.pessoa = pessoaEncontrada;
         this.formulario.patchValue(pessoaEncontrada);
-        console.log(pessoaEncontrada);
+        this.contatos = pessoaEncontrada.contatos;
 
         this.atualizarTituloEdicao();
       })
