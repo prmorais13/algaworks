@@ -8,6 +8,7 @@ import { ToastyService } from 'ng2-toasty';
 import { Pessoa, Endereco, Contato } from '../../core/modelo';
 import { PessoaService } from '../pessoa.service';
 import { ErrorHandlerService } from '../../core/error-handler.service';
+import { FooterColumnGroup } from 'primeng/components/common/shared';
 
 @Component({
   selector: 'app-pessoa-cadastro',
@@ -18,8 +19,10 @@ export class PessoaCadastroComponent implements OnInit {
 
   // pessoa: Pessoa = new Pessoa();
   formulario: FormGroup;
-  contatos = [];
-  exibindoFormularioContato = false;
+  // formContato: FormGroup;
+  // contatos: Array<Contato>;
+  // exibindoFormularioContato = false;
+  // contatoIndex: number;
 
   constructor(
     private fb: FormBuilder,
@@ -33,6 +36,7 @@ export class PessoaCadastroComponent implements OnInit {
 
   ngOnInit() {
     this.configuraForm();
+    // this.configuraFormContato();
 
     const codigoPessoa = this.route.snapshot.params['codigo'];
     this.title.setTitle('Nova pessoa');
@@ -41,6 +45,15 @@ export class PessoaCadastroComponent implements OnInit {
       this.carregarPessoa(codigoPessoa);
     }
   }
+
+/*   configuraFormContato() {
+    this.formContato = this.fb.group({
+      codigo: [],
+      nome: [ null, Validators.required ],
+      email: [ null, [ Validators.required, Validators.email ] ],
+      telefone: []
+    });
+  } */
 
   configuraForm() {
     this.formulario = this.fb.group({
@@ -55,13 +68,34 @@ export class PessoaCadastroComponent implements OnInit {
         cep: [ null, Validators.required ],
         cidade: [ null, Validators.required ],
         estado: [ null, Validators.required ]
-      })
+      }),
+      contatos: []
     });
   }
 
-  prepararNovoContato() {
+/*   prepararNovoContato() {
     this.exibindoFormularioContato = true;
+    this.contatoIndex = this.contatos.length;
+    // this.configuraFormContato();
   }
+
+  prepararParaEditar(contato: Contato) {
+    this.formContato.patchValue(contato);
+    this.exibindoFormularioContato = true;
+    this.contatoIndex = this.contatos.indexOf(contato);
+  }
+
+  removerContato(index: number) {
+    this.contatoIndex = index;
+    this.contatos.splice(this.contatoIndex, 1);
+  }
+
+  confirmarContato() {
+    this.contatos[this.contatoIndex] = this.formContato.value;
+    // this.contatos.push(this.formContato.value);
+    this.exibindoFormularioContato = false;
+    this.formContato.reset();
+  } */
 
   get editando() {
     // return Boolean(this.pessoa.codigo);
@@ -69,7 +103,7 @@ export class PessoaCadastroComponent implements OnInit {
   }
 
   // novo (form: FormControl) {
-  novo () {
+  novo() {
     // form.reset();
     this.formulario.reset();
 
@@ -136,7 +170,7 @@ export class PessoaCadastroComponent implements OnInit {
       .then(pessoaEncontrada => {
         // this.pessoa = pessoaEncontrada;
         this.formulario.patchValue(pessoaEncontrada);
-        this.contatos = pessoaEncontrada.contatos;
+        // this.contatos = pessoaEncontrada.contatos;
 
         this.atualizarTituloEdicao();
       })

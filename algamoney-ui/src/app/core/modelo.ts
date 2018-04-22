@@ -7,10 +7,17 @@ export class Pessoa {
 }
 
 export class Contato {
-    codigo: number;
-    nome: string;
-    email: string;
-    telefone: string;
+    // codigo: number;
+    // nome: string;
+    // email: string;
+    // telefone: string;
+
+    constructor(
+        public codigo?: number,
+        public nome?: string,
+        public email?: string,
+        public telefone?: string
+    ) {}
 }
 
 export class Endereco {

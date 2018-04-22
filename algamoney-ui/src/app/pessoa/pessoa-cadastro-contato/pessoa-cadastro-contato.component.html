@@ -1,0 +1,80 @@
+<div class="ui-g">
+
+  <div class="ui-g-12">
+    <button pButton label="Novo" icon="fa-plus" type="button"
+      class="ui-button-secondary" (click)="prepararNovoContato()"></button>
+  </div>
+
+  <div class="ui-g-12">
+    <p-table [value]="contatos" [responsive]="true">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Nome</th>
+          <th>E-mail</th>
+          <th>Telefone</th>
+          <th class="col-acoes-header"></th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-contato let-rowIndex="rowIndex">
+        <tr>
+          <td>{{ contato.nome }}</td>
+          <td>{{ contato.email }}</td>
+          <td>{{ contato.telefone }}</td>
+          <td class="col-acoes">
+            <button pButton icon="fa-pencil" type="button"
+              (click)="prepararParaEditar(contato)"
+              pTooltip="Editar" tooltipPosition="top"></button>
+
+            <button pButton icon="fa-trash" type="button"
+              (click)="confirmarExclusao(contato)"
+              pTooltip="Excluir" tooltipPosition="top"></button>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="4">
+            Nenhum contato cadastrado.
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<p-dialog [header]="editando ? 'Edição contato' : 'Novo contato'" [(visible)]="exibindoFormularioContato"
+  modal="modal" *ngIf="formContato">
+
+  <form (submit)="confirmarContato()" [formGroup]="formContato">
+    
+    <div class="ui-g-12 ui-fluid">
+      <label>Nome</label>
+      <input name="nome" pInputText type="text" formControlName="nome">
+
+      <app-message [control]="formContato.get('nome')" error="required"
+          text="Informe um nome" ></app-message>
+    </div>
+
+    <div class="ui-g-12 ui-fluid">
+      <label>Email</label>
+      <input name="email" pInputText type="email" formControlName="email">
+
+      <app-message [control]="formContato.get('email')" error="required"
+        text="Informe um e-mail"></app-message>
+
+      <app-message [control]="formContato.get('email')" error="email"
+        text="Informe um e-mail válido"></app-message>
+    </div>
+
+    <div class="ui-g-12 ui-fluid">
+      <label>Telefone</label>
+      <p-inputMask name="telefone" type="text" formControlName="telefone" mask="(99) 99999-9999"></p-inputMask>
+    </div>
+
+    <div class="ui-g-12">
+      <button pButton type="submit" label="confirmar" [disabled]="formContato.invalid"></button>
+    </div>
+  </form>
+</p-dialog>
