@@ -54,7 +54,7 @@ export class PessoaService {
 
     return this.http.get(`${ this.pessoaUrl }/${ codigo }`)
     .toPromise()
-    .then(response => response.json() as Pessoa);
+    .then(response => response.json());
   }
 
   mudarStatus(codigo: number, ativo: boolean): Promise<void> {

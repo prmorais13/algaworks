@@ -57,6 +57,17 @@ export class LancamentoCadastroComponent implements OnInit {
     event.xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
   }
 
+  aoTerminarUpload(event) {
+    const response = JSON.parse(event.xhr.response);
+    this.formulario.patchValue(
+      {
+        anexo: response.nome,
+        urlAnexo: response.url
+      }
+    );
+
+  }
+
   get urlUploadAnexo() {
     return this.lancamentoService.urlUploadAnexo();
   }
@@ -77,7 +88,9 @@ export class LancamentoCadastroComponent implements OnInit {
         codigo: [ null, Validators.required ],
         nome: []
       }),
-      observacao: []
+      observacao: [],
+      anexo: [],
+      urlAnexo: []
     });
   }
 
