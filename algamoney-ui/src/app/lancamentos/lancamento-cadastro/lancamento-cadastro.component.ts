@@ -65,7 +65,24 @@ export class LancamentoCadastroComponent implements OnInit {
         urlAnexo: response.url
       }
     );
+  }
 
+  erroUpload(event) {
+    this.toasty.error({
+      title: '<strong>ENVIANDO...<strong> <br>',
+      msg: 'Erro ao enviar o anexo!',
+      timeout: 4000,
+      showClose: false,
+      theme: 'bootstrap'
+    });
+  }
+
+  get nomeAnexo() {
+    const nome = this.formulario.get('anexo').value;
+    if (nome) {
+      return nome.substring(nome.indexOf('_') + 1, nome.length);
+    }
+    return '';
   }
 
   get urlUploadAnexo() {

@@ -69,13 +69,15 @@
         *ngIf="!formulario.get('anexo').value">
         <p-fileUpload name="anexo" mode="basic" auto="true" maxFileSize="100000000"
           chooseLabel="Anexar" accept="image/*,application/*" [url]="urlUploadAnexo"
-          (onBeforeSend)="antesDeEviar($event)" (onUpload)="aoTerminarUpload($event)">
+          (onBeforeSend)="antesDeEviar($event)"
+          (onUpload)="aoTerminarUpload($event)"
+          (onError)="erroUpload($event)">
         </p-fileUpload>
       </div>
 
-      <div class="ui-g-12 ui-fluid" *ngIf="formulario.get('anexo').value">
+      <div class="ui-g-12 ui-fluid" *ngIf="formulario.get('anexo').value" dir="rtl">
         <a target="_blank" pTooltip="Baixar anexo" pTooltipPosition="top"
-          [href]="formulario.get('urlAnexo').value">{{ formulario.get('anexo').value }}</a>
+          [href]="formulario.get('urlAnexo').value">{{ nomeAnexo }}</a>
       </div>
 
       <div class="ui-g-12">
