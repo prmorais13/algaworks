@@ -27,6 +27,7 @@ export class LancamentoCadastroComponent implements OnInit {
   pessoas = [];
   // lancamento = new Lancamento();
   formulario: FormGroup;
+  uploadEmAndamento = false;
 
   constructor(
     private fb: FormBuilder,
@@ -55,6 +56,7 @@ export class LancamentoCadastroComponent implements OnInit {
 
   antesDeEviar(event) {
     event.xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
+    this.uploadEmAndamento = true;
   }
 
   aoTerminarUpload(event) {
@@ -65,6 +67,8 @@ export class LancamentoCadastroComponent implements OnInit {
         urlAnexo: response.url
       }
     );
+
+    this.uploadEmAndamento = false;
   }
 
   erroUpload(event) {
@@ -74,6 +78,15 @@ export class LancamentoCadastroComponent implements OnInit {
       timeout: 4000,
       showClose: false,
       theme: 'bootstrap'
+    });
+
+    this.uploadEmAndamento = false;
+  }
+
+  excluirAnexo() {
+    this.formulario.patchValue({
+      anexo: null,
+      urlAnexo: null
     });
   }
 
