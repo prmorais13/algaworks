@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 // import 'rxjs/add/operator/toPromise';
 
 import { environment } from '../../environments/environment';
-import { Pessoa } from '../core/modelo';
+import { Pessoa, Estado, Cidade } from '../core/modelo';
 import { AuthHttp } from 'angular2-jwt';
 
 export class PessoaFiltro {
@@ -16,9 +16,13 @@ export class PessoaFiltro {
 export class PessoaService {
 
   pessoaUrl: string;
+  cidadeUrl: string;
+  estadoUrl: string;
 
   constructor(private http: AuthHttp) {
     this.pessoaUrl = `${environment.apiUrl}/pessoas`;
+    this.cidadeUrl = `${environment.apiUrl}/cidades`;
+    this.estadoUrl = `${environment.apiUrl}/estados`;
   }
 
   pesquisar(filtro: PessoaFiltro): Promise<any> {
@@ -86,4 +90,20 @@ export class PessoaService {
       .toPromise()
       .then(() => null);
   }
+
+  listarEstados(): Promise<Estado[]> {
+    return this.http.get(this.estadoUrl)
+      .toPromise()
+      .then(estados => estados.json());
+  }
+
+  pesquisarCidades(estado: string): Promise<Cidade[]> {
+    const params = new URLSearchParams();
+    params.set('codigo_estado', estado);
+
+    return this.http.get(this.cidadeUrl, { search: params })
+      .toPromise()
+      .then(cidades => cidades.json());
+  }
+
 }
