@@ -17,12 +17,10 @@ import { FooterColumnGroup } from 'primeng/components/common/shared';
 })
 export class PessoaCadastroComponent implements OnInit {
 
-  // pessoa: Pessoa = new Pessoa();
   formulario: FormGroup;
-  // formContato: FormGroup;
-  // contatos: Array<Contato>;
-  // exibindoFormularioContato = false;
-  // contatoIndex: number;
+  estados: any[];
+  cidades: any[];
+  // estadoSelecionado: number;
 
   constructor(
     private fb: FormBuilder,
@@ -36,24 +34,16 @@ export class PessoaCadastroComponent implements OnInit {
 
   ngOnInit() {
     this.configuraForm();
-    // this.configuraFormContato();
 
     const codigoPessoa = this.route.snapshot.params['codigo'];
     this.title.setTitle('Nova pessoa');
+
+    this.carregarEstados();
 
     if (codigoPessoa) {
       this.carregarPessoa(codigoPessoa);
     }
   }
-
-/*   configuraFormContato() {
-    this.formContato = this.fb.group({
-      codigo: [],
-      nome: [ null, Validators.required ],
-      email: [ null, [ Validators.required, Validators.email ] ],
-      telefone: []
-    });
-  } */
 
   configuraForm() {
     this.formulario = this.fb.group({
@@ -66,45 +56,44 @@ export class PessoaCadastroComponent implements OnInit {
         complemento: [],
         bairro: [ null, Validators.required ],
         cep: [ null, Validators.required ],
-        cidade: [ null, Validators.required ],
-        estado: [ null, Validators.required ]
+        estado: [],
+        cidade: []
       }),
       contatos: []
     });
   }
 
-/*   prepararNovoContato() {
-    this.exibindoFormularioContato = true;
-    this.contatoIndex = this.contatos.length;
-    // this.configuraFormContato();
+  carregarEstados() {
+    this.pessoaService.listarEstados()
+      .then(lista => {
+        this.estados = lista.map(uf => (
+          {
+            label: uf.nome, value: uf.codigo
+          }
+        ));
+
+      })
+      .catch(erro => this.errorHandler.handler(erro));
   }
 
-  prepararParaEditar(contato: Contato) {
-    this.formContato.patchValue(contato);
-    this.exibindoFormularioContato = true;
-    this.contatoIndex = this.contatos.indexOf(contato);
-  }
+  carregarCidades() {
+    this.pessoaService.pesquisarCidades(this.formulario.get('endereco.estado').value)
+      .then(lista => {
+        this.cidades = lista.map(cidade => (
+          {
+            label: cidade.nome, value: cidade.codigo
+          }
+        ));
 
-  removerContato(index: number) {
-    this.contatoIndex = index;
-    this.contatos.splice(this.contatoIndex, 1);
+      })
+      .catch(erro => this.errorHandler.handler(erro));
   }
-
-  confirmarContato() {
-    this.contatos[this.contatoIndex] = this.formContato.value;
-    // this.contatos.push(this.formContato.value);
-    this.exibindoFormularioContato = false;
-    this.formContato.reset();
-  } */
 
   get editando() {
-    // return Boolean(this.pessoa.codigo);
     return Boolean(this.formulario.get('codigo').value);
   }
 
-  // novo (form: FormControl) {
   novo() {
-    // form.reset();
     this.formulario.reset();
 
     setTimeout(function() {
@@ -114,19 +103,14 @@ export class PessoaCadastroComponent implements OnInit {
     this.router.navigate(['/pessoas/novo']);
   }
 
-  // salvar(form: FormControl) {
   salvar() {
     if (this.editando) {
-      // this.atualizarPessoa(form);
       this.atualizarPessoa();
     } else {
-      // this.adicionarPessoa(form);
       this.adicionarPessoa();
     }
   }
 
-/*   adicionarPessoa(form: FormControl) {
-    this.pessoaService.adicionar(this.pessoa) */
   adicionarPessoa() {
     this.pessoaService.adicionar(this.formulario.value)
       .then(pessoaAdicionada => {
@@ -139,15 +123,11 @@ export class PessoaCadastroComponent implements OnInit {
           timeout: 4000
         });
 
-        // form.reset();
-        // this.pessoa = new Pessoa();
         this.router.navigate(['/pessoas', pessoaAdicionada.codigo]);
       })
       .catch(erro => this.errorHandler.handler(erro));
   }
 
-/*   atualizarPessoa(form: FormControl) {
-    this.pessoaService.atualizar(this.pessoa) */
   atualizarPessoa() {
     this.pessoaService.atualizar(this.formulario.value)
       .then(pessoaAtualizada => {
@@ -168,9 +148,7 @@ export class PessoaCadastroComponent implements OnInit {
   carregarPessoa(codigo: number) {
     this.pessoaService.buscarPorCodigo(codigo)
       .then(pessoaEncontrada => {
-        // this.pessoa = pessoaEncontrada;
         this.formulario.patchValue(pessoaEncontrada);
-        // this.contatos = pessoaEncontrada.contatos;
 
         this.atualizarTituloEdicao();
       })
@@ -178,8 +156,10 @@ export class PessoaCadastroComponent implements OnInit {
   }
 
   atualizarTituloEdicao() {
-    // this.title.setTitle(`Editando ${ this.pessoa.nome }`);
     this.title.setTitle(`Editando ${this.formulario.get('nome')}`);
   }
 
+  teste() {
+    console.log(this.formulario.value);
+  }
 }
