@@ -13,10 +13,10 @@
         <app-message [control]="nome" error="required"
             text="Informe um nome."></app-message>
         <app-message [control]="nome" error="minlength"
-            text="Mínio de {{ nome.errors?.minlength?.requiredLength }} caracteres."></app-message>
+            text="Mínimo de {{ nome.errors?.minlength?.requiredLength }} caracteres."></app-message>
       </div>
 
-      <div class="ui-g-12 ui-md-9 ui-fluid" formGroupName="endereco">
+      <div class="ui-g-12 ui-md-9 ui-fluid">
         <label>Logradouro</label>
         <input pInputText name="logradouro" type="text" [(ngModel)]="pessoa.endereco.logradouro"
           #logradouro="ngModel" required>
@@ -43,7 +43,7 @@
       <div class="ui-g-12 ui-md-4 ui-fluid">
         <label>Bairro</label>
         <input pInputText name="bairro" type="text" [(ngModel)]="pessoa.endereco.bairro"
-          #bairro="ngModel">
+          #bairro="ngModel" required>
 
         <app-message [control]="bairro" error="required"
           text="Informe o bairro."></app-message>
@@ -61,11 +61,11 @@
       
       <div class="ui-g-12 ui-md-6 ui-fluid">
         <label>Estado</label>
-        <p-dropdown placeholder="Selecione..."
+        <p-dropdown name="estadoSelecionado" placeholder="Selecione..."
           [autoWidth]="false" [filter]="true"
           [options]="estados" [(ngModel)]="estadoSelecionado"
           (onChange)="carregarCidades()"
-          #estado="ngModel" require>      
+          #estado="ngModel" required>      
         </p-dropdown>
 
         <app-message [control]="estado" error="required"
@@ -75,7 +75,7 @@
       <div class="ui-g-12 ui-md-6 ui-fluid">
         <label>Cidade</label>
 
-        <p-dropdown placeholder="Selecione..."
+        <p-dropdown name="cidade" placeholder="Selecione..."
           [autoWidth]="false" [filter]="true"
           [options]="cidades" [(ngModel)]="pessoa.endereco.cidade.codigo"
           name="cidade" #cidade="ngModel" required

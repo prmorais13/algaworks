@@ -37,8 +37,8 @@
         <ng-template pTemplate="body" let-pessoa>
           <tr>
             <td>{{ pessoa.nome }}</td>
-            <td>{{ pessoa.endereco.cidade }}</td>
-            <td class="col-data">{{ pessoa.endereco.estado }}</td>
+            <td>{{ pessoa.endereco.cidade.nome }}</td>
+            <td class="col-data">{{ pessoa.endereco.cidade.estado.nome }}</td>
             <td class="col-data">
               <a routerLink="/pessoas" [pTooltip]="pessoa.ativo ? 'Desativar' : 'Ativar'" (click)="mudarStatus(pessoa)">
                 {{ pessoa.ativo ? 'Ativo' : 'Inativo'}}

@@ -99,7 +99,7 @@ export class PessoaService {
 
   pesquisarCidades(estado): Promise<Cidade[]> {
     const params = new URLSearchParams();
-    params.set('estado', estado);
+    params.set('codigo_estado', estado);
 
     return this.http.get(this.cidadeUrl, { search: params })
       .toPromise()
