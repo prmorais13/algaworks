@@ -1,6 +1,5 @@
 import { Router, ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 
 import { ToastyService } from 'ng2-toasty';
@@ -9,6 +8,7 @@ import { Pessoa, Endereco, Contato } from '../../core/modelo';
 import { PessoaService } from '../pessoa.service';
 import { ErrorHandlerService } from '../../core/error-handler.service';
 import { FooterColumnGroup } from 'primeng/components/common/shared';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-pessoa-cadastro',
@@ -17,13 +17,12 @@ import { FooterColumnGroup } from 'primeng/components/common/shared';
 })
 export class PessoaCadastroComponent implements OnInit {
 
-  formulario: FormGroup;
   estados: any[];
   cidades: any[];
-  // estadoSelecionado: number;
+  pessoa: Pessoa = new Pessoa();
+  estadoSelecionado: number;
 
   constructor(
-    private fb: FormBuilder,
     private pessoaService: PessoaService,
     private errorHandler: ErrorHandlerService,
     private toasty: ToastyService,
@@ -33,7 +32,6 @@ export class PessoaCadastroComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.configuraForm();
 
     const codigoPessoa = this.route.snapshot.params['codigo'];
     this.title.setTitle('Nova pessoa');
@@ -43,24 +41,6 @@ export class PessoaCadastroComponent implements OnInit {
     if (codigoPessoa) {
       this.carregarPessoa(codigoPessoa);
     }
-  }
-
-  configuraForm() {
-    this.formulario = this.fb.group({
-      codigo: [],
-      nome: [ null, [ Validators.required, Validators.minLength(10) ] ],
-      ativo: [ true ],
-      endereco: this.fb.group({
-        logradouro: [ null, Validators.required],
-        numero: [ null, Validators.required ],
-        complemento: [],
-        bairro: [ null, Validators.required ],
-        cep: [ null, Validators.required ],
-        estado: [],
-        cidade: []
-      }),
-      contatos: []
-    });
   }
 
   carregarEstados() {
@@ -77,7 +57,8 @@ export class PessoaCadastroComponent implements OnInit {
   }
 
   carregarCidades() {
-    this.pessoaService.pesquisarCidades(this.formulario.get('endereco.estado').value)
+
+    this.pessoaService.pesquisarCidades(this.estadoSelecionado)
       .then(lista => {
         this.cidades = lista.map(cidade => (
           {
@@ -90,11 +71,11 @@ export class PessoaCadastroComponent implements OnInit {
   }
 
   get editando() {
-    return Boolean(this.formulario.get('codigo').value);
+    return Boolean(this.pessoa.codigo);
   }
 
-  novo() {
-    this.formulario.reset();
+  novo(form: FormControl) {
+    form.reset();
 
     setTimeout(function() {
       this.pessoa = new Pessoa();
@@ -103,16 +84,16 @@ export class PessoaCadastroComponent implements OnInit {
     this.router.navigate(['/pessoas/novo']);
   }
 
-  salvar() {
+  salvar(form: FormControl) {
     if (this.editando) {
-      this.atualizarPessoa();
+      this.atualizarPessoa(form);
     } else {
-      this.adicionarPessoa();
+      this.adicionarPessoa(form);
     }
   }
 
-  adicionarPessoa() {
-    this.pessoaService.adicionar(this.formulario.value)
+  adicionarPessoa(form: FormControl) {
+    this.pessoaService.adicionar(this.pessoa)
       .then(pessoaAdicionada => {
 
         this.toasty.success({
@@ -128,8 +109,8 @@ export class PessoaCadastroComponent implements OnInit {
       .catch(erro => this.errorHandler.handler(erro));
   }
 
-  atualizarPessoa() {
-    this.pessoaService.atualizar(this.formulario.value)
+  atualizarPessoa(form: FormControl) {
+    this.pessoaService.atualizar(this.pessoa)
       .then(pessoaAtualizada => {
 
         this.atualizarTituloEdicao();
@@ -148,7 +129,14 @@ export class PessoaCadastroComponent implements OnInit {
   carregarPessoa(codigo: number) {
     this.pessoaService.buscarPorCodigo(codigo)
       .then(pessoaEncontrada => {
-        this.formulario.patchValue(pessoaEncontrada);
+        this.pessoa = pessoaEncontrada;
+
+        this.estadoSelecionado = (this.pessoa.endereco.cidade) ?
+          this.pessoa.endereco.cidade.estado.codigo : null;
+
+        if (this.estadoSelecionado) {
+          this.carregarCidades();
+        }
 
         this.atualizarTituloEdicao();
       })
@@ -156,10 +144,7 @@ export class PessoaCadastroComponent implements OnInit {
   }
 
   atualizarTituloEdicao() {
-    this.title.setTitle(`Editando ${this.formulario.get('nome')}`);
+    this.title.setTitle(`Editando ${this.pessoa.nome}`);
   }
 
-  teste() {
-    console.log(this.formulario.value);
-  }
 }
